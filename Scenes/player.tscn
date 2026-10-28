@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://bjksjbta0pncy"]
+
+[ext_resource type="Script" uid="uid://baxq1t2dw8dgm" path="res://Scenes/player.gd" id="1_fkybt"]
+[ext_resource type="Script" uid="uid://cd1qphusgj3pw" path="res://Scripts/input_manager.gd" id="1_vgqql"]
+[ext_resource type="Script" uid="uid://7tduei060lj1" path="res://Scripts/hand.gd" id="2_fkybt"]
+[ext_resource type="PackedScene" uid="uid://c37on5awvow66" path="res://Scenes/deck.tscn" id="3_6t5aa"]
+[ext_resource type="PackedScene" uid="uid://yydxu05vk2w1" path="res://Scenes/graveyard.tscn" id="5_fkybt"]
+[ext_resource type="PackedScene" uid="uid://c5kh4v0kkxx2o" path="res://Scenes/discard_pile.tscn" id="6_x3wgy"]
+
+[node name="Player" type="Node2D" unique_id=952023091]
+script = ExtResource("1_fkybt")
+
+[node name="InputManager" type="Node2D" parent="." unique_id=303157679]
+script = ExtResource("1_vgqql")
+
+[node name="Hand" type="Node2D" parent="." unique_id=2046071996]
+script = ExtResource("2_fkybt")
+
+[node name="Deck" parent="." unique_id=1891428362 instance=ExtResource("3_6t5aa")]
+position = Vector2(582, 390)
+
+[node name="Graveyard" parent="." unique_id=838771951 instance=ExtResource("5_fkybt")]
+position = Vector2(58, 320)
+
+[node name="DiscardPile" parent="." unique_id=1054768240 instance=ExtResource("6_x3wgy")]
+position = Vector2(58, 390)

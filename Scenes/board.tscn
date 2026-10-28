@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://xtxbhb7ncvhv"]
+
+[ext_resource type="Script" uid="uid://cnt2b1147netg" path="res://Scripts/board.gd" id="1_2wvcj"]
+[ext_resource type="PackedScene" uid="uid://coa6m50yp8sja" path="res://Scenes/card_slot.tscn" id="1_tnbny"]
+
+[node name="Board" type="Node2D" unique_id=2095800397 node_paths=PackedStringArray("p1_card_slots", "p2_card_slots")]
+script = ExtResource("1_2wvcj")
+p1_card_slots = [NodePath("CardSlot11"), NodePath("CardSlot12"), NodePath("CardSlot13"), NodePath("CardSlot14")]
+p2_card_slots = [NodePath("CardSlot21"), NodePath("CardSlot22"), NodePath("CardSlot23"), NodePath("CardSlot24")]
+
+[node name="CardSlot11" parent="." unique_id=393025286 instance=ExtResource("1_tnbny")]
+position = Vector2(-90, 40)
+
+[node name="CardSlot12" parent="." unique_id=574998472 instance=ExtResource("1_tnbny")]
+position = Vector2(-30, 40)
+
+[node name="CardSlot13" parent="." unique_id=811003360 instance=ExtResource("1_tnbny")]
+position = Vector2(90, 40)
+
+[node name="CardSlot14" parent="." unique_id=885409370 instance=ExtResource("1_tnbny")]
+position = Vector2(30, 40)
+
+[node name="CardSlot21" parent="." unique_id=1722763177 instance=ExtResource("1_tnbny")]
+position = Vector2(-90, -40)
+
+[node name="CardSlot22" parent="." unique_id=701350138 instance=ExtResource("1_tnbny")]
+position = Vector2(90, -40)
+
+[node name="CardSlot23" parent="." unique_id=404851282 instance=ExtResource("1_tnbny")]
+position = Vector2(30, -40)
+
+[node name="CardSlot24" parent="." unique_id=357332431 instance=ExtResource("1_tnbny")]
+position = Vector2(-30, -40)

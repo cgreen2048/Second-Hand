@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://ck8knqxpm4rgi"]
+
+[ext_resource type="Script" uid="uid://hg7m0geg0osa" path="res://Scripts/card.gd" id="1_wf8id"]
+[ext_resource type="Texture2D" uid="uid://dmiqy51ulrydb" path="res://textures/Knight.png" id="2_brehn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h4g8a"]
+size = Vector2(39, 58)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wf8id"]
+font_color = Color(0.7254902, 0.023529412, 0.023529412, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_brehn"]
+font_color = Color(0.4117647, 0.8, 0.9411765, 1)
+
+[node name="Card" type="Area2D" unique_id=1308198920]
+script = ExtResource("1_wf8id")
+
+[node name="KnightCard" type="Sprite2D" parent="." unique_id=864433038]
+texture = ExtResource("2_brehn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=480967773]
+shape = SubResource("RectangleShape2D_h4g8a")
+
+[node name="AttackValue" type="Label" parent="." unique_id=1540084673]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = 7.0
+offset_right = -7.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(5, 11.5)
+text = "2"
+label_settings = SubResource("LabelSettings_wf8id")
+horizontal_alignment = 1
+
+[node name="BlockValue" type="Label" parent="." unique_id=541173919]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 18.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(5, 11.5)
+text = "2"
+label_settings = SubResource("LabelSettings_brehn")
+horizontal_alignment = 1
+
+[node name="Faltered" type="Label" parent="."]
+visible = false
+offset_left = -22.0
+offset_top = -27.0
+offset_right = 22.0
+offset_bottom = -13.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.2, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 9
+text = "Faltered"
+horizontal_alignment = 1
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

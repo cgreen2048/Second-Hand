@@ -1,0 +1,284 @@
+[gd_scene format=3 uid="uid://cvmwcfd3sst2g"]
+
+[ext_resource type="Script" uid="uid://cowwe8yybtgm0" path="res://Scripts/menu_overlay.gd" id="1_0jeku"]
+[ext_resource type="StyleBox" uid="uid://82dawajx4u33" path="res://OverlayButtonStyleBox.tres" id="2_yha7m"]
+[ext_resource type="StyleBox" uid="uid://uycvbp3fpybc" path="res://OverlayButtonPressedStyleBox.tres" id="3_d78ev"]
+[ext_resource type="ButtonGroup" uid="uid://3cfv0yo14i51" path="res://OverlayButtonGroup.tres" id="3_yha7m"]
+[ext_resource type="StyleBox" uid="uid://5vcw1lim3frc" path="res://OverlayButtonHoverStyleBox.tres" id="4_sq6xk"]
+[ext_resource type="StyleBox" uid="uid://qgkj128cgu4f" path="res://OverlayButtonHoverPressedStyleBox.tres" id="5_out06"]
+[ext_resource type="StyleBox" uid="uid://bmvcgjsfcr3fb" path="res://TitleScreenButtonStyle.tres" id="7_0fxqj"]
+[ext_resource type="Texture2D" uid="uid://dtccb2oc3vvvh" path="res://Assets/UI/close_menu_background.png" id="7_sq6xk"]
+[ext_resource type="Texture2D" uid="uid://b3lisxop1m863" path="res://Assets/UI/close_menu_pressed.png" id="8_f8po0"]
+[ext_resource type="Texture2D" uid="uid://2nygaxyunr5o" path="res://Assets/UI/close_menu_hover.png" id="9_garwo"]
+[ext_resource type="Texture2D" uid="uid://b574jcjll71aj" path="res://Assets/UI/back_menu_normal.png" id="10_g2oto"]
+[ext_resource type="Texture2D" uid="uid://de52v8c7j2b87" path="res://Assets/UI/back_menu_pressed.png" id="11_0fxqj"]
+[ext_resource type="Texture2D" uid="uid://b2yug2isthhye" path="res://Assets/UI/back_menu_hover.png" id="12_xwj4n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4g8a"]
+bg_color = Color(0.22, 0.22, 0.22, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0jeku"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+
+[node name="MenuOverlay" type="Control" unique_id=1499543413]
+z_index = 8
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0jeku")
+
+[node name="DimBackground" type="ColorRect" parent="." unique_id=1644610105]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16136119, 0.16136119, 0.16136119, 0.5411765)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=925389308]
+custom_minimum_size = Vector2(480, 360)
+custom_maximum_size = Vector2(480, 360)
+layout_mode = 0
+offset_left = 80.0
+offset_top = 60.0
+offset_right = 560.0
+offset_bottom = 420.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_h4g8a")
+
+[node name="OverlayColumns" type="HBoxContainer" parent="PanelContainer" unique_id=676828636]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="OptionsScroll" type="ScrollContainer" parent="PanelContainer/OverlayColumns" unique_id=1562683341]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="OptionsBox" type="VBoxContainer" parent="PanelContainer/OverlayColumns/OptionsScroll" unique_id=1203847555]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="HP" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=569969479]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "HP"
+
+[node name="Cards" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=418565884]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Cards"
+
+[node name="Hand" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=908930959]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Hand"
+
+[node name="Deck" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=1968439980]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Deck"
+
+[node name="DiscardPile" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=478140203]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Discard Pile"
+
+[node name="Graveyard" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=1752011465]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "The Graveyard"
+
+[node name="GameBoard" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=371519820]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "The Game Board"
+
+[node name="TakingATurn" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=408930055]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Taking A Turn"
+
+[node name="PlayingCards" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=1337249952]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Playing Cards"
+
+[node name="AttackingAndBlocking" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=1777615357]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Attacking & Blocking"
+
+[node name="TimeAction" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=1459089785]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "Time Actions"
+
+[node name="HowToWin" type="Button" parent="PanelContainer/OverlayColumns/OptionsScroll/OptionsBox" unique_id=452058281]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_yha7m")
+theme_override_styles/pressed = ExtResource("3_d78ev")
+theme_override_styles/hover = ExtResource("4_sq6xk")
+theme_override_styles/hover_pressed = ExtResource("5_out06")
+toggle_mode = true
+button_group = ExtResource("3_yha7m")
+text = "How to Win"
+
+[node name="InfoScroll" type="ScrollContainer" parent="PanelContainer/OverlayColumns" unique_id=1967826669]
+custom_minimum_size = Vector2(288, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_0jeku")
+horizontal_scroll_mode = 0
+
+[node name="InfoBox" type="VBoxContainer" parent="PanelContainer/OverlayColumns/InfoScroll" unique_id=2104304114]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OptionTitle" type="RichTextLabel" parent="PanelContainer/OverlayColumns/InfoScroll/InfoBox" unique_id=884394951]
+layout_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="AspectFrame" type="AspectRatioContainer" parent="PanelContainer/OverlayColumns/InfoScroll/InfoBox" unique_id=1792822140]
+layout_mode = 2
+
+[node name="OptionImage" type="TextureRect" parent="PanelContainer/OverlayColumns/InfoScroll/InfoBox/AspectFrame" unique_id=499250220]
+custom_minimum_size = Vector2(224, 126)
+custom_maximum_size = Vector2(224, 126)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="OptionVideo" type="VideoStreamPlayer" parent="PanelContainer/OverlayColumns/InfoScroll/InfoBox/AspectFrame" unique_id=570538375]
+custom_minimum_size = Vector2(224, 126)
+layout_mode = 2
+expand = true
+loop = true
+
+[node name="OptionInfo" type="RichTextLabel" parent="PanelContainer/OverlayColumns/InfoScroll/InfoBox" unique_id=1973536707]
+layout_mode = 2
+fit_content = true
+scroll_active = false
+
+[node name="GameMenu" type="VBoxContainer" parent="PanelContainer" unique_id=1795336950]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="HowToPlay" type="Button" parent="PanelContainer/GameMenu" unique_id=1965592174]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("7_0fxqj")
+text = "How to Play"
+
+[node name="MainMenu" type="Button" parent="PanelContainer/GameMenu" unique_id=354664157]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("7_0fxqj")
+text = "Main Menu"
+
+[node name="QuitGame" type="Button" parent="PanelContainer/GameMenu" unique_id=1719039973]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("7_0fxqj")
+text = "Quit Game"
+
+[node name="Exit" type="TextureButton" parent="." unique_id=1236023513]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 540.0
+offset_top = 45.0
+offset_right = 580.0
+offset_bottom = 85.0
+texture_normal = ExtResource("7_sq6xk")
+texture_pressed = ExtResource("8_f8po0")
+texture_hover = ExtResource("9_garwo")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Back" type="TextureButton" parent="." unique_id=1034967760]
+custom_minimum_size = Vector2(40, 40)
+custom_maximum_size = Vector2(40, 40)
+layout_mode = 0
+offset_left = 60.0
+offset_top = 45.0
+offset_right = 100.0
+offset_bottom = 85.0
+texture_normal = ExtResource("10_g2oto")
+texture_pressed = ExtResource("11_0fxqj")
+texture_hover = ExtResource("12_xwj4n")
+ignore_texture_size = true
+stretch_mode = 5

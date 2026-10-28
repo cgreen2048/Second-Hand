@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://xtikgcc8c5ju"]
+
+[ext_resource type="Script" uid="uid://c4ujh4h5gpoam" path="res://Scripts/title_screen.gd" id="1_v6p8y"]
+[ext_resource type="PackedScene" uid="uid://cvmwcfd3sst2g" path="res://Scenes/menu_overlay.tscn" id="2_ak2if"]
+[ext_resource type="StyleBox" uid="uid://bmvcgjsfcr3fb" path="res://TitleScreenButtonStyle.tres" id="2_ig5kc"]
+
+[sub_resource type="Theme" id="Theme_ak2if"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1s85s"]
+font_size = 48
+font_color = Color(1, 0, 0, 1)
+
+[node name="TitleScreen" type="Control" unique_id=864519727]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_v6p8y")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1733212804]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleScreenButtonBox" type="VBoxContainer" parent="." unique_id=492683048]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.82900006
+anchor_right = 0.5
+anchor_bottom = 0.82900006
+offset_top = -97.92001
+offset_bottom = 0.07998657
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_ak2if")
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="PlayMatch" type="Button" parent="TitleScreenButtonBox" unique_id=2072104488]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = ExtResource("2_ig5kc")
+text = "Play Match"
+
+[node name="HowToPlay" type="Button" parent="TitleScreenButtonBox" unique_id=559944958]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = ExtResource("2_ig5kc")
+text = "How To Play"
+
+[node name="QuitGame" type="Button" parent="TitleScreenButtonBox" unique_id=1766485047]
+layout_mode = 2
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = ExtResource("2_ig5kc")
+text = "Quit Game"
+
+[node name="SecondHandTitle" type="Label" parent="." unique_id=466985815]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.104
+anchor_right = 0.5
+anchor_bottom = 0.104
+offset_left = -152.5
+offset_top = 0.07999802
+offset_right = 152.5
+offset_bottom = 67.08
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "Second Hand"
+label_settings = SubResource("LabelSettings_1s85s")
+
+[node name="MenuOverlay" parent="." unique_id=1499543413 instance=ExtResource("2_ak2if")]
+visible = false
+layout_mode = 1

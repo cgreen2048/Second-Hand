@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://yydxu05vk2w1"]
+
+[ext_resource type="Script" uid="uid://chonwvw2nfq0q" path="res://Scripts/graveyard.gd" id="1_i0055"]
+[ext_resource type="Texture2D" uid="uid://boyr56285o1jv" path="res://textures/Deck.png" id="2_krc36"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h4g8a"]
+size = Vector2(42.375, 62.375)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h4g8a"]
+line_spacing = 0.0
+font_size = 15
+
+[node name="Graveyard" type="Area2D" unique_id=838771951]
+script = ExtResource("1_i0055")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=341549691]
+shape = SubResource("RectangleShape2D_h4g8a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1873333882]
+scale = Vector2(0.236, 0.237)
+texture = ExtResource("2_krc36")
+
+[node name="GraveyardLabel" type="Label" parent="." unique_id=1220371625]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -23.0
+offset_top = -23.0
+offset_right = 23.0
+offset_bottom = 23.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Grave
+Yard"
+label_settings = SubResource("LabelSettings_h4g8a")
+horizontal_alignment = 1

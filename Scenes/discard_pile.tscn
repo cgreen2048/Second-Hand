@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://c5kh4v0kkxx2o"]
+
+[ext_resource type="Script" uid="uid://by3cfni4k38yi" path="res://Scripts/discard_pile.gd" id="1_8l76l"]
+[ext_resource type="Texture2D" uid="uid://boyr56285o1jv" path="res://textures/Deck.png" id="2_7uqfi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rqf30"]
+size = Vector2(42.275, 62.375)
+
+[sub_resource type="LabelSettings" id="LabelSettings_h4g8a"]
+font_size = 12
+
+[node name="DiscardPile" type="Area2D" unique_id=1054768240]
+script = ExtResource("1_8l76l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1796983809]
+shape = SubResource("RectangleShape2D_rqf30")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1346533289]
+scale = Vector2(0.236, 0.237)
+texture = ExtResource("2_7uqfi")
+
+[node name="DiscardLabel" type="Label" parent="." unique_id=1364220542]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.0
+offset_top = -8.5
+offset_right = 22.0
+offset_bottom = 8.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Discard"
+label_settings = SubResource("LabelSettings_h4g8a")

@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c37on5awvow66"]
+
+[ext_resource type="Script" uid="uid://boaxoo7fae4bp" path="res://Scripts/deck.gd" id="1_io7pv"]
+[ext_resource type="Texture2D" uid="uid://boyr56285o1jv" path="res://textures/Deck.png" id="2_nlncs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h4g8a"]
+size = Vector2(42.375, 62.375)
+
+[node name="Deck" type="Area2D" unique_id=1891428362]
+script = ExtResource("1_io7pv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=909673306]
+shape = SubResource("RectangleShape2D_h4g8a")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=465701196]
+scale = Vector2(0.23611104, 0.23679249)
+texture = ExtResource("2_nlncs")
+
+[node name="DeckLabel" type="Label" parent="." unique_id=827045234]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.5
+offset_top = -11.5
+offset_right = 19.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Deck"

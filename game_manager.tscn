@@ -1,0 +1,320 @@
+[gd_scene format=3 uid="uid://cjv1gg4vv5psg"]
+
+[ext_resource type="PackedScene" uid="uid://bjksjbta0pncy" path="res://Scenes/player.tscn" id="1_e5fcp"]
+[ext_resource type="PackedScene" uid="uid://cqfh32e4m1k67" path="res://Scenes/opponent.tscn" id="3_d5upp"]
+[ext_resource type="Script" uid="uid://bln525nyih44v" path="res://game_manager.gd" id="3_manager"]
+[ext_resource type="PackedScene" uid="uid://xtxbhb7ncvhv" path="res://Scenes/board.tscn" id="4_d5upp"]
+[ext_resource type="Script" uid="uid://dmxalogmvubyo" path="res://Scripts/fsm.gd" id="5_shwjl"]
+[ext_resource type="Script" uid="uid://cvpykt66osfay" path="res://Scripts/hud.gd" id="5_vk86k"]
+[ext_resource type="Texture2D" uid="uid://c56ytsvchc4e4" path="res://Assets/UI/settings_normal.png" id="7_gth8u"]
+[ext_resource type="Texture2D" uid="uid://cde86gm86lvuu" path="res://Assets/UI/settings_pressed.png" id="8_dq8jp"]
+[ext_resource type="Texture2D" uid="uid://dkoqhp5xc726u" path="res://Assets/UI/settings_hover.png" id="9_yawsv"]
+[ext_resource type="PackedScene" uid="uid://cvmwcfd3sst2g" path="res://Scenes/menu_overlay.tscn" id="10_dq8jp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rqf30"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_h4g8a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dq8jp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2wvcj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_shwjl"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wf8id"]
+font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_le433"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.15686275, 0.15686275, 0.15686275, 0.8862745)
+
+[node name="GameManager" type="Node2D" unique_id=1211533794 node_paths=PackedStringArray("board", "player", "opponent")]
+script = ExtResource("3_manager")
+board = NodePath("Board")
+player = NodePath("Player")
+opponent = NodePath("Opponent")
+controllers = {
+1: NodePath("Player/InputManager"),
+2: NodePath("Opponent/FSM")
+}
+
+[node name="Board" parent="." unique_id=36195714 instance=ExtResource("4_d5upp")]
+position = Vector2(310, 240)
+
+[node name="Player" parent="." unique_id=952023091 instance=ExtResource("1_e5fcp")]
+
+[node name="InputManager" parent="Player" index="0" unique_id=303157679 node_paths=PackedStringArray("game_manager")]
+game_manager = NodePath("../..")
+
+[node name="Opponent" parent="." unique_id=1679893825 instance=ExtResource("3_d5upp")]
+
+[node name="FSM" type="Node2D" parent="Opponent" unique_id=1218529773 node_paths=PackedStringArray("game_manager", "card_slots")]
+script = ExtResource("5_shwjl")
+game_manager = NodePath("../..")
+card_slots = [NodePath("../../Board/CardSlot21"), NodePath("../../Board/CardSlot22"), NodePath("../../Board/CardSlot23"), NodePath("../../Board/CardSlot24")]
+
+[node name="GameStatus" type="Label" parent="." unique_id=704894283]
+visible = false
+z_index = 10
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 270.0
+offset_top = 120.0
+offset_right = 368.0
+offset_bottom = 154.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "You win!"
+label_settings = SubResource("LabelSettings_rqf30")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1649000379 node_paths=PackedStringArray("input_manager")]
+script = ExtResource("5_vk86k")
+input_manager = NodePath("../Player/InputManager")
+
+[node name="Control" type="Control" parent="HUD" unique_id=1514186099]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="PlayerHP" type="Label" parent="HUD/Control" unique_id=1191265647]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.98
+anchor_right = 0.5
+anchor_bottom = 0.98
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+tooltip_text = "Player HP Remaining"
+mouse_filter = 1
+text = "HP: 25"
+label_settings = SubResource("LabelSettings_h4g8a")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OpponentHP" type="Label" parent="HUD/Control" unique_id=706024703]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.025
+anchor_right = 0.5
+anchor_bottom = 0.025
+grow_horizontal = 2
+tooltip_text = "Opponent HP Remaining"
+mouse_filter = 1
+text = "HP: 25"
+label_settings = SubResource("LabelSettings_dq8jp")
+
+[node name="PlayerTurn" type="Label" parent="HUD/Control" unique_id=942130127]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.02
+anchor_right = 0.02
+anchor_bottom = 0.02
+offset_right = 1.0
+offset_bottom = 23.0
+tooltip_text = "Current Player's Turn"
+mouse_filter = 1
+text = "Player Turn: "
+label_settings = SubResource("LabelSettings_2wvcj")
+
+[node name="ActionsRemaining" type="Label" parent="HUD/Control" unique_id=1496612533]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.06
+anchor_right = 0.02
+anchor_bottom = 0.06
+offset_right = 152.0
+offset_bottom = 23.0
+tooltip_text = "Number of actions remaining on this turn"
+mouse_filter = 1
+text = "Actions Remaining: "
+label_settings = SubResource("LabelSettings_shwjl")
+
+[node name="PlayerTurnUIHBox" type="HBoxContainer" parent="HUD/Control" unique_id=725557123]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.98
+anchor_top = 0.98
+anchor_right = 0.98
+anchor_bottom = 0.98
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="AttackButton" type="Button" parent="HUD/Control/PlayerTurnUIHBox" unique_id=1833417860]
+layout_mode = 2
+tooltip_text = "Attack with a card on your side of the board"
+mouse_filter = 1
+text = "Attack"
+
+[node name="TimeActionButton" type="Button" parent="HUD/Control/PlayerTurnUIHBox" unique_id=1779545642]
+layout_mode = 2
+tooltip_text = "Stop time for two turns on any slot on the Board"
+mouse_filter = 1
+text = "Time Stop"
+
+[node name="EndTurnButton" type="Button" parent="HUD/Control/PlayerTurnUIHBox" unique_id=294701088]
+layout_mode = 2
+tooltip_text = "End your turn instantly"
+mouse_filter = 1
+text = "End Turn"
+
+[node name="RolloverDamage" type="Label" parent="HUD/Control"]
+visible = false
+layout_mode = 1
+anchor_left = 0.98
+anchor_top = 0.98
+anchor_right = 0.98
+anchor_bottom = 0.98
+offset_left = -260.0
+offset_top = -60.0
+offset_bottom = -34.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+text = "0 damage remaining"
+horizontal_alignment = 2
+
+[node name="DefendingUIHBox" type="HBoxContainer" parent="HUD/Control" unique_id=1657271761]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.98
+anchor_top = 0.98
+anchor_right = 0.98
+anchor_bottom = 0.98
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="BlockButton" type="Button" parent="HUD/Control/DefendingUIHBox" unique_id=956021394]
+visible = false
+layout_mode = 2
+tooltip_text = "Block with a card on your side of the board"
+mouse_filter = 1
+text = "Block"
+
+[node name="NoBlockButton" type="Button" parent="HUD/Control/DefendingUIHBox" unique_id=1752114319]
+visible = false
+layout_mode = 2
+tooltip_text = "Don't block and take direct damage to your HP"
+mouse_filter = 1
+text = "No Block"
+
+[node name="CancelActionUIHbox" type="HBoxContainer" parent="HUD/Control" unique_id=1251638220]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.98
+anchor_top = 0.98
+anchor_right = 0.98
+anchor_bottom = 0.98
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="CancelButton" type="Button" parent="HUD/Control/CancelActionUIHbox" unique_id=1786687161]
+visible = false
+layout_mode = 2
+tooltip_text = "Cancel your currently selected action"
+mouse_filter = 1
+text = "Cancel"
+
+[node name="DiscardUI" type="VBoxContainer" parent="HUD/Control" unique_id=1970991953]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.98
+anchor_top = 0.98
+anchor_right = 0.98
+anchor_bottom = 0.98
+offset_left = -170.0
+offset_top = -48.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 0
+
+[node name="DiscardPrompt" type="Label" parent="HUD/Control/DiscardUI" unique_id=378881727]
+layout_mode = 2
+text = "Select a hand card to discard."
+label_settings = SubResource("LabelSettings_wf8id")
+horizontal_alignment = 2
+
+[node name="DiscardButton" type="Button" parent="HUD/Control/DiscardUI" unique_id=902131418]
+layout_mode = 2
+tooltip_text = "Discard the selected card"
+mouse_filter = 1
+disabled = true
+text = "Discard"
+
+[node name="OpenMenu" type="TextureButton" parent="HUD/Control" unique_id=626562723]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.99
+anchor_top = 0.01
+anchor_right = 0.99
+anchor_bottom = 0.01
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+tooltip_text = "Open Menu"
+texture_normal = ExtResource("7_gth8u")
+texture_pressed = ExtResource("8_dq8jp")
+texture_hover = ExtResource("9_yawsv")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MenuOverlay" parent="HUD/Control" unique_id=1499543413 instance=ExtResource("10_dq8jp")]
+visible = false
+layout_mode = 1
+
+[node name="CardTooltip" type="PanelContainer" parent="HUD/Control" unique_id=169514356]
+visible = false
+custom_minimum_size = Vector2(60, 0)
+custom_maximum_size = Vector2(80, -1)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_le433")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/Control/CardTooltip" unique_id=736620187]
+layout_mode = 2
+
+[node name="CardName" type="Label" parent="HUD/Control/CardTooltip/VBoxContainer" unique_id=976649762]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+
+[node name="CardDescription" type="Label" parent="HUD/Control/CardTooltip/VBoxContainer" unique_id=1163881868]
+custom_maximum_size = Vector2(80, -1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="AttackerStatus" type="Label" parent="HUD/Control" unique_id=542334959]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="DefenderStatus" type="Label" parent="HUD/Control" unique_id=773311719]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[editable path="Board"]
+[editable path="Player"]
+[editable path="Player/Graveyard"]
