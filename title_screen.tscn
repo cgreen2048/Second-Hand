@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c4ujh4h5gpoam" path="res://Scripts/title_screen.gd" id="1_v6p8y"]
 [ext_resource type="PackedScene" uid="uid://cvmwcfd3sst2g" path="res://Scenes/menu_overlay.tscn" id="2_ak2if"]
-[ext_resource type="StyleBox" uid="uid://bmvcgjsfcr3fb" path="res://TitleScreenButtonStyle.tres" id="2_ig5kc"]
+[ext_resource type="StyleBox" uid="uid://bmvcgjsfcr3fb" path="res://Styles/TitleScreenButtonStyle.tres" id="2_ig5kc"]
 
 [sub_resource type="Theme" id="Theme_ak2if"]
 
@@ -45,21 +45,21 @@ alignment = 1
 [node name="PlayMatch" type="Button" parent="TitleScreenButtonBox" unique_id=2072104488]
 layout_mode = 2
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_ig5kc")
 text = "Play Match"
 
 [node name="HowToPlay" type="Button" parent="TitleScreenButtonBox" unique_id=559944958]
 layout_mode = 2
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_ig5kc")
 text = "How To Play"
 
 [node name="QuitGame" type="Button" parent="TitleScreenButtonBox" unique_id=1766485047]
 layout_mode = 2
 theme_override_constants/outline_size = 10
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_ig5kc")
 text = "Quit Game"
 

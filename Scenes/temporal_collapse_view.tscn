@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://d1mm5kvovbh0i"]
+
+[ext_resource type="Script" uid="uid://ce366luq4yurv" path="res://Scripts/temporal_collapse_view.gd" id="1_edyap"]
+
+[node name="TemporalCollapseView" type="Control" unique_id=1941368445]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_edyap")
+
+[node name="OverlayVBox" type="VBoxContainer" parent="." unique_id=302485980]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -61.0
+offset_right = 200.0
+offset_bottom = 61.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Prompt" type="Label" parent="OverlayVBox" unique_id=468745847]
+custom_maximum_size = Vector2(400, -1)
+layout_mode = 2
+text = "This will cause your opponent to die in 3 turns, but your HP will be reduced to 1. You must survive for those 3 turns. Proceed?"
+horizontal_alignment = 1
+vertical_alignment = 2
+autowrap_mode = 3
+
+[node name="Buttons" type="HBoxContainer" parent="OverlayVBox" unique_id=2004370129]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Yes" type="Button" parent="OverlayVBox/Buttons" unique_id=396947219]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Yes"
+
+[node name="No" type="Button" parent="OverlayVBox/Buttons" unique_id=1213968176]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "No"

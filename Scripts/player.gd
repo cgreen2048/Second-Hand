@@ -8,6 +8,10 @@ extends Node2D
 @onready var input_manager: InputManager = $InputManager
 
 var hp : int = 25
+var borrowed_time_payback : int = -1
+var temporal_collapse_timer : int = -1
+var time_actions_disabled: bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

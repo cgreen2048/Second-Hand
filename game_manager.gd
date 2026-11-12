@@ -12,10 +12,6 @@ extends Node2D
 @onready var hud = $HUD
 @onready var game_status : Label = $GameStatus
 
-signal turn_changed(active_player : int, actions_remaining : int)
-signal defense_requested(pending_defender : int, card: Card)
-signal action_complete(active_player : int)
-
 const MAX_CARDS_IN_END_OF_TURN_HAND = 4
 const STARTING_ACTION_COUNT = 2
 const PLAYER_ONE = 1
@@ -54,10 +50,13 @@ func _ready() -> void:
 
 
 func start_match():
+	player.deck.generate_random_card_deck()
+	opponent.deck.generate_random_card_deck()
+
 	for i in range(MAX_CARDS_IN_END_OF_TURN_HAND - 1):
 		player.draw_card()
 		opponent.draw_card()
-	
+
 	start_turn(PLAYER_ONE)
 
 func start_turn(player_number : int):
@@ -65,28 +64,41 @@ func start_turn(player_number : int):
 	phase = Phase.TURN_START
 	time_action_taken = false
 	starting_actions = STARTING_ACTION_COUNT + board.apply_start_turn_card_effects(active_player)
+	var active_participant = participants[active_player]
+	if active_participant.borrowed_time_payback == 0:
+		active_participant.borrowed_time_payback = -1
+		starting_actions = maxi(0, starting_actions - 1)
 	actions_remaining = starting_actions
-	
+
 	if active_player == PLAYER_ONE:
 		turn_number += 1
 		# potentially update this in hud later)
-		
+
+	active_participant.draw_card()
+	phase = Phase.ACTION
+	update_controllers()
+	hud.hide_discard_controls()
+	hud.show_action_selection(InputManager.ActionMode.NONE if active_player == PLAYER_ONE else InputManager.ActionMode.LOCKED)
+
 	var hud_state = {
 		"active_player": active_player,
 		"actions_remaining": actions_remaining,
 		"starting_actions": starting_actions,
 		"time_action_taken": time_action_taken,
+		"borrowed_time_payback": player.borrowed_time_payback,
+		"is_player_action_phase": active_player == PLAYER_ONE,
+		"time_actions_disabled": player.time_actions_disabled,
+		"collapse_active": player.temporal_collapse_timer != -1 or opponent.temporal_collapse_timer != -1,
 		"has_attack_card": board.is_card_slot_available_for_action(PLAYER_ONE, true),
+		"player_hp": player.get_hp(),
+		"opponent_hp": opponent.get_hp()
 	}
 	hud.update_state(hud_state)
-	
-	participants[active_player].draw_card()
-	phase = Phase.ACTION
-	update_controllers()
+
 	if active_player == PLAYER_TWO:
 		var controller = get_node(controllers[PLAYER_TWO])
 		controller.take_turn_action(actions_remaining)
-	
+
 
 func request_end_turn(hand_size: int):
 	phase = Phase.TURN_END
@@ -97,7 +109,7 @@ func request_end_turn(hand_size: int):
 	hud.set_cancel_visible(false)
 	check_remaining_discards(hand_size)
 	return true
-	
+
 
 func check_remaining_discards(hand_size : int):
 	if hand_size > MAX_CARDS_IN_END_OF_TURN_HAND:
@@ -108,21 +120,24 @@ func check_remaining_discards(hand_size : int):
 	else:
 		hud.hide_discard_controls()
 		end_turn()
-		
+
 
 func end_turn():
+	phase = Phase.TURN_END
+	update_game_state(true)
+	if phase == Phase.GAME_OVER:
+		return
 	board.decrease_time_stops(active_player)
 	start_turn(PLAYER_TWO if active_player == PLAYER_ONE else PLAYER_ONE)
 
 func request_card_placement(player: int, card: Card, card_slot: CardSlot):
 	if (
-		player != active_player
-		or not board.card_slot_in_player_slots(card.player_number, card_slot)
+		not board.card_slot_in_player_slots(player, card_slot)
 		or card_slot.time_stopped > 0
 		or card_slot.card_in_slot != null
 	):
 		return false
-	
+
 	card_slot.card_in_slot = card
 	card.card_slot = card_slot
 	card.stored_position = card_slot.global_position
@@ -131,34 +146,28 @@ func request_card_placement(player: int, card: Card, card_slot: CardSlot):
 	card.adjacency_stat_modifier = board.get_adjacent_stat_modifier(card.index, active_player)
 	card.update_card_labels()
 	board.update_adjacency_effects(card.adjacency_effects, card.index, active_player)
-	
+
 	var human_input := get_node(controllers[PLAYER_ONE]) as InputManager
 	human_input.register_card_hover(card)
-	
+
 	actions_remaining -= 1
-	
+
 	update_game_state()
 	return true
 
 func request_to_begin_attack():
-	# InputManager only enters here from its normal-action mode.
-	if board.is_card_slot_available_for_action(active_player, true):
-		board.set_player_card_highlights(true, true)
-		hud.set_attack_buttons_visible(false)
-		hud.set_cancel_visible(true)
-		return true
-	else:
-		return false
-		# eventually, show error
+	# InputManager's normal-action mode already establishes turn/action permission.
+	return board.is_card_slot_available_for_action(active_player, true)
 
 func request_attack_with_card_on_board(attacker: int, attacking_card: Card):
-	if not can_take_action(attacker):
+	if (
+		attacking_card.player_number != attacker
+		or attacking_card.card_slot == null
+		or attacking_card.card_slot.time_stopped > 0
+		or attacking_card.falter_turns_remaining > 0
+	):
 		return false
-	if not owns_board_card(attacker, attacking_card):
-		return false
-	if attacking_card.card_slot.time_stopped > 0 or attacking_card.falter_turns_remaining > 0:
-		return false
-	
+
 	pending_attacker = attacking_card
 	pending_defender = PLAYER_TWO if attacker == PLAYER_ONE else PLAYER_ONE
 	remaining_damage = attacking_card.attack
@@ -173,7 +182,7 @@ func request_pending_attack_defense() -> void:
 		finish_pending_attack()
 		return
 	phase = Phase.AWAITING_DEFENSE
-	
+
 	if pending_defender == PLAYER_ONE:
 		if is_instance_valid(pending_attacker):
 			board.set_card_attacking_marker(pending_attack_slot, true)
@@ -182,7 +191,7 @@ func request_pending_attack_defense() -> void:
 		hud.set_cancel_visible(false)
 	update_controllers()
 	hud.set_rollover_damage(remaining_damage, pending_rollover and pending_defender == PLAYER_ONE)
-	
+
 	if board.is_card_slot_available_for_action(pending_defender):
 		if pending_defender == PLAYER_ONE:
 			hud.set_block_buttons_visible(true)
@@ -194,40 +203,19 @@ func request_pending_attack_defense() -> void:
 		call_deferred("request_defense_with_card", pending_defender, null)
 
 
-func request_to_begin_defense():
-	# InputManager already requires AWAITING_BLOCK; attack setup checked for cards.
-	# turns block buttons off, cancel on
-	board.set_player_card_highlights(true)
-	hud.set_block_buttons_visible(false)
-	hud.set_cancel_visible(true)
-	return true
-
 func request_defense_with_card(defender : int, defending_card: Card):
-	if (
-		defender != pending_defender
-		or phase != Phase.AWAITING_DEFENSE
-		or (
-			defending_card != null
-			and defending_card.card_type == CardDefinitions.CardType.BOARD
-			and not owns_board_card(defender, defending_card)
-		)
-		or (
-			defending_card != null
-			and defending_card.card_type == CardDefinitions.CardType.SPELL
-			and defending_card.card_slot != null
-		)
-		or (
-			defending_card != null
-			and defending_card.card_slot != null
-			and defending_card.card_slot.time_stopped > 0
-		)
-	):
-		return false
-	
+	if defending_card != null:
+		if defending_card.player_number != defender:
+			return false
+		if defending_card.card_type == CardDefinitions.CardType.BOARD and defending_card.card_slot == null:
+			return false
+		if defending_card.card_slot != null and defending_card.card_slot.time_stopped > 0:
+			return false
+
 	phase = Phase.RESOLVING_ACTION
 	board.set_player_card_highlights(false)
 	update_controllers()
-	
+
 	var defending_slot : CardSlot = null
 	if pending_defender == PLAYER_ONE:
 		# turn block and cancel off
@@ -237,12 +225,12 @@ func request_defense_with_card(defender : int, defending_card: Card):
 		defending_slot = defending_card.card_slot
 		board.set_card_attacking_marker(defending_slot, true)
 		await get_tree().create_timer(1).timeout
-	
+
 	if is_instance_valid(pending_attacker):
 		remaining_damage = await resolve_attack_with_card_on_board(pending_attacker, defending_card, remaining_damage)
 	else:
 		remaining_damage = await resolve_rollover_damage(remaining_damage, defending_card)
-	
+
 	if pending_attack_slot != null:
 		board.set_card_attacking_marker(pending_attack_slot, false)
 	if defending_slot != null:
@@ -268,19 +256,19 @@ func finish_pending_attack() -> void:
 	actions_remaining -= 1
 	phase = Phase.ACTION
 	update_game_state()
-	
+
 
 func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: float = -1.0) -> float:
 	var incoming_damage: float = attacker.attack if damage < 0.0 else damage
 	var has_rollover: bool = CardDefinitions.SpecialEffects.ROLLOVER in attacker.special_effects
 	hud.show_combat_status(attacker, active_player, hud.attacker_status, "Attacking!")
 	await get_tree().create_timer(1).timeout
-	
+
 	if defender == null:
 		hud.attacker_status.hide()
 		participants[pending_defender].take_damage(ceili(incoming_damage))
 		return 0.0
-	
+
 	var damage_left: float = defender.get_remaining_rollover_damage(incoming_damage) if has_rollover else 0.0
 	var attacker_died = attacker.take_damage(defender.attack)
 	var defender_died = defender.take_damage(incoming_damage)
@@ -298,11 +286,11 @@ func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: f
 
 	hud.show_combat_status(attacker,active_player,hud.attacker_status, "Destroyed!" if attacker_died else "Survived!")
 	hud.show_combat_status(defender, pending_defender, hud.defender_status, "Destroyed!" if defender_died else "Blocked!")
-	
+
 	await get_tree().create_timer(1).timeout
-	
+
 	hud.hide_status_labels()
-	
+
 	# The damage continues independently of the attacker node after it perishes.
 	if attacker_died and has_rollover and damage_left > 0.0:
 		pending_attacker = null
@@ -336,30 +324,60 @@ func remove_card_from_board(card : Card, player : int):
 	card.adjacency_stat_modifier = Vector2i.ZERO
 	card.update_card_labels()
 	hud.hide_card_tooltip(card)
-	
+
 	participants[player].move_card_to_graveyard(card)
 
+func request_to_begin_time_action(player_number: int = PLAYER_ONE) -> bool:
+	return (
+		player_number == active_player
+		and phase == Phase.ACTION
+		and not time_action_taken
+		and not participants[player_number].time_actions_disabled
+		and (actions_remaining > 0 or participants[player_number].borrowed_time_payback == -1)
+	)
+
+func request_to_begin_temporal_collapse() -> bool:
+	return actions_remaining > 0 and player.temporal_collapse_timer == -1 and opponent.temporal_collapse_timer == -1
+
+func request_temporal_collapse(player_number: int) -> bool:
+	participants[player_number].hp = 1
+	var receiving_player: int = PLAYER_TWO if player_number == PLAYER_ONE else PLAYER_ONE
+	participants[receiving_player].temporal_collapse_timer = 3
+	participants[player_number].time_actions_disabled = true
+	time_action_taken = true
+	actions_remaining -= 1
+	hud.create_time_action_clock(Hud.TimeAction.TEMPORAL_COLLAPSE, receiving_player, participants[receiving_player].temporal_collapse_timer)
+	update_game_state()
+	return true
+
 func request_to_begin_time_stop():
-	if not can_take_action(PLAYER_ONE) or time_action_taken:
+	# Shared Time Action permission was established when opening the submenu.
+	if actions_remaining <= 0:
 		return false
 
 	board.set_all_card_highlights(true)
+	hud.set_time_action_menu_visible(false)
 	hud.set_attack_buttons_visible(false)
 	hud.set_cancel_visible(true)
 	return true
 
-
-func request_time_stop(player_number: int, slot: CardSlot):
-	if not can_take_action(player_number) or time_action_taken:
+func request_borrowed_time(player_number : int):
+	if participants[player_number].borrowed_time_payback != -1:
 		return false
 
-	if slot == null:
-		return false
-	if (
-		not board.card_slot_in_player_slots(PLAYER_ONE, slot)
-		and not board.card_slot_in_player_slots(PLAYER_TWO, slot)
-	):
-		return false
+	participants[player_number].borrowed_time_payback = 3
+	participants[player_number].take_damage(3)
+	time_action_taken = true
+
+	# Borrowed Time gives one extra action without costing one
+	actions_remaining += 1
+	hud.create_time_action_clock(Hud.TimeAction.BORROWED_TIME, player_number, participants[player_number].borrowed_time_payback)
+
+	update_game_state()
+	return true
+
+func request_time_stop(slot: CardSlot):
+	# InputManager supplies a board slot after entering Time Stop selection.
 	if slot.time_stopped > 0:
 		return false
 
@@ -370,56 +388,99 @@ func request_time_stop(player_number: int, slot: CardSlot):
 	return true
 
 
-func cancel_action():
-	hud.set_cancel_visible(false)
+func sync_action_selection(mode: InputManager.ActionMode) -> void:
 	board.set_all_card_highlights(false)
-	
-	if phase == Phase.ACTION:
-		hud.set_attack_buttons_visible(true)
-	if phase == Phase.AWAITING_DEFENSE:
-		hud.set_block_buttons_visible(true)
+	if mode == InputManager.ActionMode.ATTACK:
+		board.set_player_card_highlights(true, true)
+	elif mode == InputManager.ActionMode.BLOCK:
+		board.set_player_card_highlights(true)
+	elif mode == InputManager.ActionMode.TIME_ACTION:
+		board.set_all_card_highlights(true)
+	hud.show_action_selection(mode)
+
+func cancel_action(next_mode : InputManager.ActionMode = InputManager.ActionMode.NONE):
+	#hud.set_cancel_visible(false)
+	board.set_all_card_highlights(false)
+
+	# Card input stays locked at zero actions; End Turn and borrowing remain visible.
+	if next_mode == InputManager.ActionMode.LOCKED and phase == Phase.ACTION and active_player == PLAYER_ONE:
+		hud.show_action_selection(InputManager.ActionMode.NONE)
+	else:
+		hud.show_action_selection(next_mode)
+	#if phase == Phase.ACTION:
+		#sync_action_selection(next_mode)
+		##hud.set_attack_buttons_visible(true)
+	#if phase == Phase.AWAITING_DEFENSE:
+		#hud.set_block_buttons_visible(true)
+
+
+func is_world_input_blocked() -> bool:
+	return hud.menu_overlay.visible
 
 
 func request_show_card_tooltip(hovered_card : Card) -> void:
 	hud.show_card_tooltip(hovered_card)
-	
+
 func request_hide_card_tooltip(hovered_card : Card) -> void:
 	hud.hide_card_tooltip(hovered_card)
-	
-func update_game_state():
-	# at the end of an action, we want to 
-	
-	#1. Flip UI back to targeted state (i.e. if actions remaining and player turn, normal buttons)
-	#- if actions remaining and not player turn, no UI
-	#- if no actions remain, set attack and time action to invisible
-	#2. Update HP for player and opponent
-	#3. Update actions remaining
+
+func update_game_state(turn_ended: bool = false):
+	if turn_ended:
+		var active_participant = participants[active_player]
+		if active_participant.borrowed_time_payback > 0:
+			active_participant.borrowed_time_payback -= 1
+		if active_participant.temporal_collapse_timer > 0:
+			active_participant.temporal_collapse_timer -= 1
+			if active_participant.temporal_collapse_timer == 0:
+				active_participant.take_damage(active_participant.get_hp())
+	# HP changes have already resolved. Establish terminal state before
+	# updating controller permissions or restoring any action controls.
+	var player_hp: int = player.get_hp()
+	var opponent_hp: int = opponent.get_hp()
+	var match_over := phase == Phase.GAME_OVER or player_hp <= 0 or opponent_hp <= 0
+	if match_over:
+		phase = Phase.GAME_OVER
+	board.set_all_card_highlights(false)
+	update_controllers()
+
+	# Group visibility belongs to explicit action-selection presentation,
+	# not the HUD's label/button-availability refresh.
+	hud.hide_discard_controls()
+	if phase == Phase.ACTION and active_player == PLAYER_ONE:
+		# End Turn stays available even when no card actions remain.
+		hud.show_action_selection(InputManager.ActionMode.NONE)
+	elif phase == Phase.AWAITING_DEFENSE and pending_defender == PLAYER_ONE:
+		hud.show_action_selection(InputManager.ActionMode.AWAITING_BLOCK)
+	else:
+		hud.show_action_selection(InputManager.ActionMode.LOCKED)
+
 	var hud_state = {
 		"active_player": active_player,
 		"actions_remaining": actions_remaining,
-		"player_hp": player.get_hp(),
+		"player_hp": player_hp,
 		"has_attack_card": board.is_card_slot_available_for_action(PLAYER_ONE, true),
 		"time_action_taken": time_action_taken,
-		"opponent_hp": opponent.get_hp()
+		"borrowed_time_payback": player.borrowed_time_payback,
+		"is_player_action_phase": phase == Phase.ACTION and active_player == PLAYER_ONE,
+		"time_actions_disabled": player.time_actions_disabled,
+		"collapse_active": player.temporal_collapse_timer != -1 or opponent.temporal_collapse_timer != -1,
+		"opponent_hp": opponent_hp
 	}
 	hud.update_state(hud_state)
-	board.set_all_card_highlights(false)
-	update_controllers()
-	
-	if player.get_hp() == 0:
+
+	if turn_ended:
+		hud.decrease_time_action_clocks(active_player)
+
+	if match_over:
 		game_status.visible = true
-		game_status.text = "You lose!"
-		await get_tree().create_timer(5).timeout
-		get_tree().quit()
-	elif opponent.get_hp() == 0:
-		game_status.visible = true
-		game_status.text = "You win!"
+		game_status.text = "You lose!" if player_hp <= 0 else "You win!"
 		await get_tree().create_timer(5).timeout
 		get_tree().change_scene_to_file("res://title_screen.tscn")
-	
+		return
+
 	if active_player == PLAYER_TWO and phase == Phase.ACTION:
-		call_deferred("continue_opponent_turn")
-		
+		get_node(controllers[PLAYER_TWO]).call_deferred("take_turn_action", actions_remaining)
+
 	# board.update_history()
 
 
@@ -431,35 +492,6 @@ func update_controllers() -> void:
 			owns_action_phase and actions_remaining > 0,
 			phase == Phase.AWAITING_DEFENSE and pending_defender == controller_num
 		)
-
-func continue_opponent_turn():
-	if active_player != PLAYER_TWO or phase != Phase.ACTION:
-		return
-
-	var controller = get_node(controllers[PLAYER_TWO])
-	controller.take_turn_action(actions_remaining)
-
-
-# Helpers
-func can_take_action(player_number: int) -> bool:
-	return (
-		player_number == active_player
-		and phase == Phase.ACTION
-		and actions_remaining > 0
-	)
-
-func owns_board_card(player_number: int, card: Card) -> bool:
-	if card.player_number != player_number:
-		return false
-	if card.card_type != CardDefinitions.CardType.BOARD:
-		return false
-	if not is_instance_valid(card.card_slot):
-		return false
-
-	return (
-		board.card_slot_in_player_slots(player_number, card.card_slot)
-		and card.card_slot.card_in_slot == card
-	)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

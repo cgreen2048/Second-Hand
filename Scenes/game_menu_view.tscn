@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://bfgid3f2aids"]
+
+[ext_resource type="StyleBox" uid="uid://bmvcgjsfcr3fb" path="res://Styles/TitleScreenButtonStyle.tres" id="1_2vjaj"]
+[ext_resource type="Script" uid="uid://djx41wj4hgvbs" path="res://Scripts/game_menu_view.gd" id="1_o45gk"]
+
+[node name="Control" type="Control" unique_id=1351729966]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_o45gk")
+
+[node name="GameMenu" type="VBoxContainer" parent="." unique_id=898758216]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -82.0
+offset_right = 100.0
+offset_bottom = 82.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 16
+
+[node name="HowToPlay" type="Button" parent="GameMenu" unique_id=1299044711]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_2vjaj")
+text = "How to Play"
+
+[node name="MainMenu" type="Button" parent="GameMenu" unique_id=38678433]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_2vjaj")
+text = "Main Menu"
+
+[node name="QuitGame" type="Button" parent="GameMenu" unique_id=1792755163]
+custom_minimum_size = Vector2(200, 44)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_2vjaj")
+text = "Quit Game"

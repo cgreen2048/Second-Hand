@@ -11,6 +11,8 @@ line_spacing = 0.0
 font_size = 15
 
 [node name="Graveyard" type="Area2D" unique_id=838771951]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("1_i0055")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=341549691]

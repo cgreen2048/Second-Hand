@@ -7,6 +7,9 @@ extends Node2D
 @onready var discard_pile: DiscardPile = $DiscardPile
 
 var hp : int = 25
+var borrowed_time_payback : int = -1
+var temporal_collapse_timer : int = -1
+var time_actions_disabled: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

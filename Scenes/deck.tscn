@@ -6,7 +6,11 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h4g8a"]
 size = Vector2(42.375, 62.375)
 
+[sub_resource type="LabelSettings" id="LabelSettings_yawsv"]
+
 [node name="Deck" type="Area2D" unique_id=1891428362]
+collision_layer = 4
+collision_mask = 0
 script = ExtResource("1_io7pv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=909673306]
@@ -29,3 +33,4 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Deck"
+label_settings = SubResource("LabelSettings_yawsv")

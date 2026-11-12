@@ -16,6 +16,7 @@ var empty_slots: Array[CardSlot] = []
 var available_combat_slots: Array[CardSlot] = []
 var available_attack_slots: Array[CardSlot] = []
 var available_placement_slots: Array[CardSlot] = []
+var take_time_action = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,7 +28,7 @@ func take_turn_action(actions_remaining : int):
 	if game_manager.active_player != PLAYER_TWO or game_manager.phase != GameManager.Phase.ACTION:
 		return
 	refresh_slots()
-	
+
 	if actions_remaining >= 2 and not available_placement_slots.is_empty() and not hand.hand.is_empty():
 		place_random_card()
 	elif actions_remaining >= 1 and not available_attack_slots.is_empty():

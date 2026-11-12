@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Second Hand"
-run/main_scene="uid://xtikgcc8c5ju"
+run/main_scene="res://title_screen.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [display]
@@ -20,6 +20,11 @@ window/size/viewport_width=640
 window/size/viewport_height=480
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/default_theme_scale=0.7
+theme/custom="res://Styles/button_theme.tres"
 
 [input]
 
