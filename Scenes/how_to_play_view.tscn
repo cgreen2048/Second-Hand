@@ -34,17 +34,26 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
-[node name="HP" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=965098711]
+[node name="GettingStarted" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=89180011]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
 theme_override_styles/hover = ExtResource("3_l8u2y")
 theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "HP"
+text = "Getting Started"
+alignment = 0
 
-[node name="Cards" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1352086459]
+[node name="GettingStartedOptions" type="MarginContainer" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=2116788005]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Topics" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions" unique_id=1436841972]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Cards" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1352086459]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -53,53 +62,9 @@ theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
 button_group = ExtResource("5_asow4")
 text = "Cards"
+alignment = 0
 
-[node name="CardSpecialEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1310828661]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Card Special Effects ▶"
-
-[node name="SpecialEffectsOptions" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=104271059]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="StartOfTurnEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/SpecialEffectsOptions" unique_id=346539147]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Start of Turn Effects"
-
-[node name="OnPlayedEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/SpecialEffectsOptions" unique_id=1543024660]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "On Played Effects"
-
-[node name="CombatEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/SpecialEffectsOptions" unique_id=283928355]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Combat Effects"
-
-[node name="Hand" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1537928166]
+[node name="Hand" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1537928166]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -108,38 +73,9 @@ theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
 button_group = ExtResource("5_asow4")
 text = "Hand"
+alignment = 0
 
-[node name="Deck" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1109066362]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Deck"
-
-[node name="DiscardPile" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1659292350]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Discard Pile"
-
-[node name="Graveyard" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=2033660149]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "The Graveyard"
-
-[node name="GameBoard" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=731128812]
+[node name="GameBoard" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=731128812]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -148,18 +84,9 @@ theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
 button_group = ExtResource("5_asow4")
 text = "The Game Board"
+alignment = 0
 
-[node name="TakingATurn" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=181106339]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Taking A Turn"
-
-[node name="PlayingCards" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1932642277]
+[node name="PlayingCards" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1932642277]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -168,8 +95,9 @@ theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
 button_group = ExtResource("5_asow4")
 text = "Playing Cards"
+alignment = 0
 
-[node name="Combat" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1871783412]
+[node name="TakingATurn" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=181106339]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -177,48 +105,10 @@ theme_override_styles/hover = ExtResource("3_l8u2y")
 theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
 button_group = ExtResource("5_asow4")
-text = "Attacking & Blocking"
+text = "Taking a Turn"
+alignment = 0
 
-[node name="TimeActions" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1953115942]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-toggle_mode = true
-button_group = ExtResource("5_asow4")
-text = "Time Actions  ▶"
-
-[node name="TimeActionsOptions" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=718867787]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="TimeStop" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/TimeActionsOptions" unique_id=1490352831]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-text = "Time Stop"
-
-[node name="BorrowedTime" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/TimeActionsOptions" unique_id=105304170]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-text = "Borrowed Time"
-
-[node name="TemporalCollapse" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/TimeActionsOptions" unique_id=2084149688]
-layout_mode = 2
-theme_override_styles/normal = ExtResource("1_3htkh")
-theme_override_styles/pressed = ExtResource("2_hqd3o")
-theme_override_styles/hover = ExtResource("3_l8u2y")
-theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
-text = "Temporal Collapse"
-
-[node name="HowToWin" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1738494392]
+[node name="HowToWin" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1738494392]
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -227,9 +117,219 @@ theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
 toggle_mode = true
 button_group = ExtResource("5_asow4")
 text = "How to Win"
+alignment = 0
+
+[node name="PlayerAndOpponent" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1731739279]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+text = "The Player & The Opponent"
+alignment = 0
+autowrap_mode = 2
+
+[node name="PlayerAndOpponentOptions" type="MarginContainer" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=630784872]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Topics" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/PlayerAndOpponentOptions" unique_id=21741937]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HP" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/PlayerAndOpponentOptions/Topics" unique_id=965098711]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "HP"
+alignment = 0
+
+[node name="CardPiles" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/PlayerAndOpponentOptions/Topics" unique_id=948296759]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "Deck, Discard Pile, and The Graveyard"
+alignment = 0
+autowrap_mode = 2
+
+[node name="Combat" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1871783412]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+text = "Combat"
+alignment = 0
+
+[node name="CombatOptions" type="MarginContainer" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=969491595]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Topics" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/CombatOptions" unique_id=1030311591]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Attacking" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/CombatOptions/Topics" unique_id=616984607]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "Attacking"
+alignment = 0
+
+[node name="Blocking" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/CombatOptions/Topics" unique_id=627068292]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "Blocking"
+alignment = 0
+
+[node name="AdvancedGameplay" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1915797603]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+text = "Advanced Gameplay"
+alignment = 0
+
+[node name="AdvancedGameplayOptions" type="MarginContainer" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=163662839]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Topics" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions" unique_id=1101432866]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TimeActions" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics" unique_id=1953115942]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+text = "Time Actions"
+alignment = 0
+
+[node name="TimeActionsOptions" type="MarginContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics" unique_id=691460308]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Topics" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions" unique_id=1873082789]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TimeStop" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=1490352831]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+text = "Time Stop"
+alignment = 0
+
+[node name="TimeRewind" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=283112051]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+text = "Time Rewind"
+alignment = 0
+
+[node name="BorrowedTime" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=105304170]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+text = "Borrowed Time"
+alignment = 0
+
+[node name="TemporalCollapse" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=2084149688]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+text = "Temporal Collapse"
+alignment = 0
+
+[node name="CardSpecialEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics" unique_id=1310828661]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+text = "Card Special Effects"
+alignment = 0
+
+[node name="CardSpecialEffectsOptions" type="MarginContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics" unique_id=58297596]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+
+[node name="Topics" type="VBoxContainer" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions" unique_id=1291674571]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="StartOfTurnEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions/Topics" unique_id=346539147]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "Start of Turn Effects"
+alignment = 0
+
+[node name="CombatEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions/Topics" unique_id=283928355]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "Combat Effects"
+alignment = 0
+
+[node name="OnPlayedEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions/Topics" unique_id=1543024660]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_3htkh")
+theme_override_styles/pressed = ExtResource("2_hqd3o")
+theme_override_styles/hover = ExtResource("3_l8u2y")
+theme_override_styles/hover_pressed = ExtResource("4_q6bhq")
+toggle_mode = true
+button_group = ExtResource("5_asow4")
+text = "On Played Effects"
+alignment = 0
 
 [node name="InfoScroll" type="ScrollContainer" parent="OverlayColumns" unique_id=1923869258]
-custom_minimum_size = Vector2(288, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxEmpty_0jeku")
@@ -241,27 +341,41 @@ size_flags_horizontal = 3
 
 [node name="OptionTitle" type="RichTextLabel" parent="OverlayColumns/InfoScroll/InfoBox" unique_id=631427480]
 layout_mode = 2
+bbcode_enabled = true
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
 
-[node name="AspectFrame" type="AspectRatioContainer" parent="OverlayColumns/InfoScroll/InfoBox" unique_id=54259250]
+[node name="Sections" type="VBoxContainer" parent="OverlayColumns/InfoScroll/InfoBox" unique_id=2030178684]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Topic" type="VBoxContainer" parent="OverlayColumns/InfoScroll/InfoBox/Sections" unique_id=1514358021]
 layout_mode = 2
 
-[node name="OptionImage" type="TextureRect" parent="OverlayColumns/InfoScroll/InfoBox/AspectFrame" unique_id=424144446]
+[node name="SectionTitle" type="RichTextLabel" parent="OverlayColumns/InfoScroll/InfoBox/Sections/Topic" unique_id=1093346524]
+layout_mode = 2
+fit_content = true
+scroll_active = false
+
+[node name="AspectFrame" type="AspectRatioContainer" parent="OverlayColumns/InfoScroll/InfoBox/Sections/Topic" unique_id=54259250]
+layout_mode = 2
+
+[node name="OptionImage" type="TextureRect" parent="OverlayColumns/InfoScroll/InfoBox/Sections/Topic/AspectFrame" unique_id=424144446]
 custom_minimum_size = Vector2(224, 126)
 custom_maximum_size = Vector2(224, 126)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="OptionVideo" type="VideoStreamPlayer" parent="OverlayColumns/InfoScroll/InfoBox/AspectFrame" unique_id=653236862]
+[node name="OptionVideo" type="VideoStreamPlayer" parent="OverlayColumns/InfoScroll/InfoBox/Sections/Topic/AspectFrame" unique_id=653236862]
 custom_minimum_size = Vector2(224, 126)
 layout_mode = 2
 expand = true
 loop = true
 
-[node name="OptionInfo" type="RichTextLabel" parent="OverlayColumns/InfoScroll/InfoBox" unique_id=1305538009]
+[node name="OptionInfo" type="RichTextLabel" parent="OverlayColumns/InfoScroll/InfoBox/Sections/Topic" unique_id=1305538009]
 layout_mode = 2
+bbcode_enabled = true
 fit_content = true
 scroll_active = false

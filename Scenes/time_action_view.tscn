@@ -1,0 +1,127 @@
+[gd_scene format=3 uid="uid://b4oysum1wdh75"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_action"]
+content_margin_left = 10.0
+content_margin_top = 3.0
+content_margin_right = 10.0
+content_margin_bottom = 5.0
+bg_color = Color(0.12, 0.12, 0.13, 1)
+border_width_left = 2
+border_color = Color(0.66, 0.52, 0.26, 1)
+
+[node name="TimeActionView" type="MarginContainer" unique_id=467889958]
+offset_right = 244.0
+offset_bottom = 500.0
+theme_override_constants/margin_left = 36
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 36
+theme_override_constants/margin_bottom = 18
+
+[node name="Actions" type="VBoxContainer" parent="." unique_id=1428198962]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="TemporalCollapse" type="PanelContainer" parent="Actions" unique_id=1993317517]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_action")
+
+[node name="Details" type="VBoxContainer" parent="Actions/TemporalCollapse" unique_id=2077801943]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TemporalCollapseButton" type="Button" parent="Actions/TemporalCollapse/Details" unique_id=2057958213]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+text = "Temporal Collapse"
+alignment = 0
+
+[node name="Description" type="RichTextLabel" parent="Actions/TemporalCollapse/Details" unique_id=187249669]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "Spend [b][color=#4EA847]1 action[/color][/b] and reduce your health to [b][color=#D65B5B]1 HP[/color][/b]. Survive [b][color=#FFB333]3 turns[/color][/b] to win. You cannot use Time Actions again."
+fit_content = true
+scroll_active = false
+
+[node name="BorrowedTime" type="PanelContainer" parent="Actions" unique_id=278466348]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_action")
+
+[node name="Details" type="VBoxContainer" parent="Actions/BorrowedTime" unique_id=1988879216]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="BorrowedTimeButton" type="Button" parent="Actions/BorrowedTime/Details" unique_id=536887713]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+text = "Borrowed Time"
+alignment = 0
+
+[node name="Description" type="RichTextLabel" parent="Actions/BorrowedTime/Details" unique_id=472343356]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "Pay [b][color=#D65B5B]3 HP[/color][/b] to gain [b][color=#4EA847]1 action[/color][/b] now. Lose [b][color=#4EA847]1 action[/color][/b] in [b][color=#FFB333]3 turns[/color][/b]."
+fit_content = true
+scroll_active = false
+
+[node name="TimeStop" type="PanelContainer" parent="Actions" unique_id=1687761075]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_action")
+
+[node name="Details" type="VBoxContainer" parent="Actions/TimeStop" unique_id=1004912002]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TimeStopButton" type="Button" parent="Actions/TimeStop/Details" unique_id=119878750]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+text = "Time Stop"
+alignment = 0
+
+[node name="Description" type="RichTextLabel" parent="Actions/TimeStop/Details" unique_id=2061264068]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "Pay [b][color=#D65B5B]2 HP[/color][/b] and spend [b][color=#4EA847]1 action[/color][/b] to freeze a board slot for [b][color=#FFB333]2 turns[/color][/b]. Frozen slots cannot be used and their card effects pause."
+fit_content = true
+scroll_active = false
+
+[node name="TimeRewind" type="PanelContainer" parent="Actions" unique_id=1727951968]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_action")
+
+[node name="Details" type="VBoxContainer" parent="Actions/TimeRewind" unique_id=87601859]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TimeRewindButton" type="Button" parent="Actions/TimeRewind/Details" unique_id=520440687]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
+theme_override_font_sizes/font_size = 16
+text = "Time Rewind"
+alignment = 0
+
+[node name="Description" type="RichTextLabel" parent="Actions/TimeRewind/Details" unique_id=1749208713]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+bbcode_enabled = true
+text = "Select a board slot and rewind the slot to an [b][color=#FFB333]earlier state[/color][/b]."
+fit_content = true
+scroll_active = false

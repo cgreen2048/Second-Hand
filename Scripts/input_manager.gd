@@ -5,24 +5,20 @@ extends Node2D
 
 signal discard_selection_changed(has_selection: bool)
 
-const COLLISION_MASK_CARD = 1
-const COLLISION_MASK_CARD_SLOT = 2
-const COLLISION_MASK_PILE = 4
-const COLLISION_MASK_INTERACTIVE = COLLISION_MASK_CARD | COLLISION_MASK_PILE
 const DRAG_THRESHOLD = 8.0
-const PLAYER_ONE = 1
-const TOOLTIP_DELAY := 0.5
+const TOOLTIP_DELAY := 0.25
 
 enum ActionMode {
 	NONE,
 	ATTACK,
-	TIME_ACTION,
 	AWAITING_BLOCK,
 	BLOCK,
 	LOCKED,
 	DISCARD,
 	TIME_ACTION_MENU,
-	TEMPORAL_COLLAPSE_CONFIRMATION
+	TEMPORAL_COLLAPSE_CONFIRMATION,
+	TIME_STOP,
+	TIME_REWIND_MENU
 }
 
 @onready var hand : Hand = $"../Hand"
@@ -57,12 +53,12 @@ func _input(event):
 		return
 	if action_mode in [ActionMode.LOCKED, ActionMode.AWAITING_BLOCK, ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION]:
 		return
-	if action_mode == ActionMode.TIME_ACTION:
+	if action_mode == ActionMode.TIME_STOP:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				pressed_time_stop_slot = raycast_check_for_element(COLLISION_MASK_CARD_SLOT) as CardSlot
+				pressed_time_stop_slot = raycast_check_for_element(Definitions.COLLISION_MASK_CARD_SLOT) as CardSlot
 			else:
-				var released_slot = raycast_check_for_element(COLLISION_MASK_CARD_SLOT) as CardSlot
+				var released_slot = raycast_check_for_element(Definitions.COLLISION_MASK_CARD_SLOT) as CardSlot
 				var chosen_slot = pressed_time_stop_slot
 				pressed_time_stop_slot = null
 
@@ -71,7 +67,7 @@ func _input(event):
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			pressed_element = raycast_check_for_element(COLLISION_MASK_INTERACTIVE) as InteractiveElement
+			pressed_element = raycast_check_for_element(Definitions.COLLISION_MASK_INTERACTIVE) as InteractiveElement
 			if pressed_element is Card:
 				game_manager.request_hide_card_tooltip(pressed_element)
 				hover_elapsed = 0.0
@@ -87,7 +83,7 @@ func _input(event):
 					else:
 						pressed_element.animate_to_position(pressed_element.stored_position)
 				else:
-					var released_over = raycast_check_for_element(COLLISION_MASK_INTERACTIVE)
+					var released_over = raycast_check_for_element(Definitions.COLLISION_MASK_INTERACTIVE)
 					if pressed_element == released_over:
 						if not pressed_element is Card and action_mode == ActionMode.NONE:
 							pressed_element.handle_interaction(event)
@@ -117,9 +113,9 @@ func _input(event):
 func check_for_card_slot():
 	# Called on release of a dragged Card; mouse cleanup stays in _input().
 	var card_to_place: Card = pressed_element as Card
-	var card_slot_found = raycast_check_for_element(COLLISION_MASK_CARD_SLOT)
+	var card_slot_found = raycast_check_for_element(Definitions.COLLISION_MASK_CARD_SLOT)
 	if card_slot_found is CardSlot:
-		var success = game_manager.request_card_placement(PLAYER_ONE, card_to_place, card_slot_found)
+		var success = game_manager.request_card_placement(Definitions.PLAYER_ONE, card_to_place, card_slot_found)
 		if success:
 			hand.remove_card_from_hand(card_to_place)
 		else:
@@ -127,79 +123,87 @@ func check_for_card_slot():
 	else:
 		card_to_place.animate_to_position(card_to_place.stored_position)
 
+func update_action_mode(action : ActionMode):
+	action_mode = action
+	action_stack.append(action_mode)
+	game_manager.sync_action_selection(action_mode)
+	
 func begin_attack():
 	if action_mode != ActionMode.NONE:
 		return
 	if not game_manager.request_to_begin_attack():
 		return
-
-
-	action_stack.append(ActionMode.ATTACK)
-	action_mode = action_stack.back()
-
-	# make the game state and HUD changes AFTER the input manager updates its internal state
-	game_manager.sync_action_selection(action_mode)
+	update_action_mode(ActionMode.ATTACK)
 
 func attack_with_card_on_board(attacking_card: Card):
 	# translate to signals eventually so input manager doesn't know what game manager does
-	game_manager.request_attack_with_card_on_board(PLAYER_ONE, attacking_card)
+	game_manager.request_attack_with_card_on_board(Definitions.PLAYER_ONE, attacking_card)
 	# display error if false
+
+func choose_defense():
+	update_action_mode(ActionMode.AWAITING_BLOCK)
+
+func begin_defense():
+	if action_mode != ActionMode.AWAITING_BLOCK:
+		return
+	update_action_mode(ActionMode.BLOCK)
+
+func defend_with_card(blocking_card: Card):
+	game_manager.request_defense_with_card(Definitions.PLAYER_ONE, blocking_card)
 
 func begin_time_action():
 	# At zero actions the controller is locked, but Borrowed Time may restore one.
 	if action_mode not in [ActionMode.NONE, ActionMode.LOCKED]:
 		return
 	if game_manager.request_to_begin_time_action():
-		action_stack.append(ActionMode.TIME_ACTION_MENU)
-		action_mode = ActionMode.TIME_ACTION_MENU
-		game_manager.sync_action_selection(action_mode)
+		update_action_mode(ActionMode.TIME_ACTION_MENU)
 
 func begin_temporal_collapse() -> void:
 	if action_mode != ActionMode.TIME_ACTION_MENU:
 		return
 	if game_manager.request_to_begin_temporal_collapse():
-		action_stack.append(ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION)
-		action_mode = ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION
-		game_manager.sync_action_selection(action_mode)
+		update_action_mode(ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION)
 
-func cancel_temporal_collapse() -> void:
-	if action_mode != ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION:
-		return
-	cancel_action()
 
 func confirm_temporal_collapse() -> void:
 	if action_mode != ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION:
 		return
-	game_manager.request_temporal_collapse(PLAYER_ONE)
+	game_manager.request_temporal_collapse(Definitions.PLAYER_ONE)
 
 func begin_borrowed_time() -> void:
-	game_manager.request_borrowed_time(PLAYER_ONE)
+	game_manager.request_borrowed_time(Definitions.PLAYER_ONE)
 
 func begin_time_stop():
-	if action_mode == ActionMode.NONE:
-		begin_time_action()
 	if action_mode != ActionMode.TIME_ACTION_MENU:
 		return
 	if game_manager.request_to_begin_time_stop():
-		action_stack.append(ActionMode.TIME_ACTION)
-		action_mode = ActionMode.TIME_ACTION
+		update_action_mode(ActionMode.TIME_STOP)
 
-
-
-func begin_awaiting_defense():
-	action_mode = ActionMode.AWAITING_BLOCK
-
-func begin_defense():
-	if action_mode != ActionMode.AWAITING_BLOCK:
+func begin_time_rewind():
+	if action_mode != ActionMode.TIME_ACTION_MENU:
 		return
-	action_mode = ActionMode.BLOCK
-	game_manager.sync_action_selection(action_mode)
+	if game_manager.request_to_begin_time_rewind():
+		update_action_mode(ActionMode.TIME_REWIND_MENU)
 
-func defend_with_card(blocking_card: Card):
-	game_manager.request_defense_with_card(PLAYER_ONE, blocking_card)
+func confirm_time_rewind(player_number: int, slot_index: int, actions_ago: int) -> bool:
+	if action_mode != ActionMode.TIME_REWIND_MENU:
+		return false
+	return game_manager.request_time_rewind(player_number, slot_index, actions_ago)
+
+func return_to_time_action_menu() -> void:
+	if action_mode in [ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION,ActionMode.TIME_REWIND_MENU]:
+		cancel_action()
+
+func close_time_action_menu() -> void:
+	if action_mode in [ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION,ActionMode.TIME_REWIND_MENU]:
+		action_stack.pop_back()
+		action_mode = ActionMode.TIME_ACTION_MENU
+	if action_mode == ActionMode.TIME_ACTION_MENU:
+		cancel_action()
+
 
 func end_turn():
-	if discard_in_progress or game_manager.active_player != PLAYER_ONE:
+	if discard_in_progress or game_manager.active_player != Definitions.PLAYER_ONE:
 		return
 	game_manager.request_end_turn(hand.get_size())
 
@@ -243,7 +247,7 @@ func clear_selected_card() -> void:
 
 
 func cancel_action():
-	if action_stack.is_empty() or action_mode not in [ActionMode.ATTACK, ActionMode.TIME_ACTION, ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION, ActionMode.BLOCK]:
+	if action_stack.is_empty() or action_mode not in [ActionMode.ATTACK, ActionMode.TIME_STOP, ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION, ActionMode.TIME_REWIND_MENU, ActionMode.BLOCK]:
 		return
 	action_stack.pop_back()
 
@@ -253,21 +257,6 @@ func cancel_action():
 		action_mode = action_stack.back()
 
 	game_manager.cancel_action(action_mode)
-
-	#if action_mode == ActionMode.ATTACK:
-		#action_stack.pop_back()
-		#if not action_stack.is_empty():
-			#action_mode = action_stack.back()
-		#else:
-			#action_mode = ActionMode.NONE
-		#game_manager.cancel_action(action_mode)
-	#if action_mode in [ActionMode.ATTACK, ActionMode.TIME_ACTION, ActionMode.TIME_ACTION_MENU, ActionMode.BLOCK]:
-		#if action_mode == ActionMode.BLOCK:
-			#action_mode = ActionMode.AWAITING_BLOCK
-		#else:
-			#action_mode = ActionMode.NONE
-		#game_manager.cancel_action()
-		#return
 
 func update_state(allow_actions: bool, allow_defense: bool) -> void:
 	# Called at game transitions, not during an ongoing card selection.
@@ -340,7 +329,7 @@ func _on_stop_hover_over_card(card: Card) -> void:
 	update_card_highlight(card)
 
 
-func raycast_check_for_element(collision_mask: int = COLLISION_MASK_CARD | COLLISION_MASK_CARD_SLOT):
+func raycast_check_for_element(collision_mask: int = Definitions.COLLISION_MASK_CARD | Definitions.COLLISION_MASK_CARD_SLOT):
 	var space_state = get_world_2d().direct_space_state
 	var parameters = PhysicsPointQueryParameters2D.new()
 	parameters.position = get_global_mouse_position()

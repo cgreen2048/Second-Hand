@@ -3,13 +3,12 @@ extends InteractiveElement
 
 signal view_requested(collection_name: String, cards: Array[String])
 
-const PLAYER_ONE := 1
-@export_enum("Player One:1", "Player Two:2") var owner_player: int = PLAYER_ONE
+@export_enum("Player One:1", "Player Two:2") var owner_player: int = Definitions.PLAYER_ONE
 
 var graveyard = []
 
 func handle_interaction(event: InputEvent) -> void:
-	if owner_player != PLAYER_ONE:
+	if owner_player != Definitions.PLAYER_ONE:
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		var cards: Array[String] = []

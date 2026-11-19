@@ -8,7 +8,6 @@ signal card_unhovered(card: Card)
 @onready var card_rows : VBoxContainer = $ScrollContainer/MarginContainer/CardRows
 @onready var collection_name_label : Label = $ScrollContainer/MarginContainer/CardRows/CollectionName
 
-const PLAYER_ONE = 1
 
 var card_scene = preload("res://Scenes/card.tscn")
 var collection_name: String:
@@ -48,7 +47,7 @@ func _display_cards(cards: Array[String]) -> void:
 		current_row.add_child(card_holder)
 
 		var new_card := card_scene.instantiate() as Card
-		new_card.setup(sorted_cards[i], PLAYER_ONE)
+		new_card.setup(sorted_cards[i], Definitions.PLAYER_ONE)
 		# Collection previews never participate in world picking or card actions.
 		new_card.collision_layer = 0
 		new_card.collision_mask = 0

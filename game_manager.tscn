@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://dkoqhp5xc726u" path="res://Assets/UI/settings_hover.png" id="9_yawsv"]
 [ext_resource type="PackedScene" uid="uid://cvmwcfd3sst2g" path="res://Scenes/menu_overlay.tscn" id="10_dq8jp"]
 [ext_resource type="PackedScene" path="res://Scenes/button_background.tscn" id="12_button_background"]
+[ext_resource type="Script" uid="uid://cvc3aijlq3nqh" path="res://Scripts/action_tooltip_button.gd" id="13_action_tooltip"]
+[ext_resource type="Script" uid="uid://cp22rig7dcwia" path="res://Scripts/board_history.gd" id="14_board_history"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rqf30"]
 font_size = 24
@@ -45,6 +47,9 @@ controllers = {
 
 [node name="Board" parent="." unique_id=36195714 instance=ExtResource("4_d5upp")]
 position = Vector2(320, 240)
+
+[node name="BoardHistory" type="Node" parent="." unique_id=335848798]
+script = ExtResource("14_board_history")
 
 [node name="Player" parent="." unique_id=952023091 instance=ExtResource("1_e5fcp")]
 
@@ -175,6 +180,7 @@ text = "0 damage remaining"
 horizontal_alignment = 2
 
 [node name="PlayerTurnUIHBox" type="HBoxContainer" parent="HUD/Control" unique_id=725557123]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.98
@@ -188,49 +194,31 @@ grow_vertical = 0
 layout_mode = 2
 tooltip_text = "Attack with a card on your side of the board"
 mouse_filter = 1
+theme_override_colors/font_color = Color(1, 0.4901961, 0.4705882, 1)
+theme_override_colors/font_focus_color = Color(1, 0.4901961, 0.4705882, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.4901961, 0.4705882, 1)
+theme_override_colors/font_hover_color = Color(1, 0.4901961, 0.4705882, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.4901961, 0.4705882, 1)
 text = "Attack"
+script = ExtResource("13_action_tooltip")
 
 [node name="TimeActionButton" type="Button" parent="HUD/Control/PlayerTurnUIHBox" unique_id=1779545642]
 layout_mode = 2
 tooltip_text = "Choose a time action"
 mouse_filter = 1
+theme_override_colors/font_color = Color(1, 0.8196078, 0.4, 1)
+theme_override_colors/font_focus_color = Color(1, 0.8196078, 0.4, 1)
+theme_override_colors/font_pressed_color = Color(1, 0.8196078, 0.4, 1)
+theme_override_colors/font_hover_color = Color(1, 0.8196078, 0.4, 1)
+theme_override_colors/font_hover_pressed_color = Color(1, 0.8196078, 0.4, 1)
 text = "Time Action"
+script = ExtResource("13_action_tooltip")
 
 [node name="EndTurnButton" type="Button" parent="HUD/Control/PlayerTurnUIHBox" unique_id=294701088]
 layout_mode = 2
 tooltip_text = "End your turn instantly"
 mouse_filter = 1
 text = "End Turn"
-
-[node name="TimeActionUI" type="VBoxContainer" parent="HUD/Control" unique_id=927717378]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.98
-anchor_top = 0.905
-anchor_right = 0.98
-anchor_bottom = 0.905
-offset_left = -108.0
-offset_top = -66.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="TemporalCollapse" type="Button" parent="HUD/Control/TimeActionUI" unique_id=62943515]
-layout_mode = 2
-text = "Temporal Collapse"
-
-[node name="TimeRewind" type="Button" parent="HUD/Control/TimeActionUI" unique_id=13470917]
-visible = false
-layout_mode = 2
-text = "Time Rewind"
-
-[node name="BorrowedTime" type="Button" parent="HUD/Control/TimeActionUI" unique_id=505537335]
-layout_mode = 2
-text = "Borrowed Time"
-
-[node name="TimeStop" type="Button" parent="HUD/Control/TimeActionUI" unique_id=512427272]
-layout_mode = 2
-text = "Time Stop"
 
 [node name="DefendingUIHBox" type="HBoxContainer" parent="HUD/Control" unique_id=1657271761]
 visible = false
@@ -247,13 +235,20 @@ grow_vertical = 0
 layout_mode = 2
 tooltip_text = "Block with a card on your side of the board"
 mouse_filter = 1
+theme_override_colors/font_color = Color(0.4117647, 0.8, 0.9411765, 1)
+theme_override_colors/font_focus_color = Color(0.4117647, 0.8, 0.9411765, 1)
+theme_override_colors/font_pressed_color = Color(0.4117647, 0.8, 0.9411765, 1)
+theme_override_colors/font_hover_color = Color(0.4117647, 0.8, 0.9411765, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.4117647, 0.8, 0.9411765, 1)
 text = "Block"
+script = ExtResource("13_action_tooltip")
 
 [node name="NoBlockButton" type="Button" parent="HUD/Control/DefendingUIHBox" unique_id=1752114319]
 layout_mode = 2
 tooltip_text = "Don't block and take direct damage to your HP"
 mouse_filter = 1
 text = "No Block"
+script = ExtResource("13_action_tooltip")
 
 [node name="CancelActionUIHbox" type="HBoxContainer" parent="HUD/Control" unique_id=1251638220]
 layout_mode = 1
@@ -326,7 +321,6 @@ layout_mode = 1
 visible = false
 z_index = 9
 custom_minimum_size = Vector2(60, 0)
-custom_maximum_size = Vector2(80, -1)
 layout_mode = 0
 offset_right = 60.0
 offset_bottom = 40.0
@@ -342,12 +336,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 
-[node name="CardDescription" type="Label" parent="HUD/Control/CardTooltip/VBoxContainer" unique_id=1163881868]
-custom_maximum_size = Vector2(80, -1)
+[node name="CardDescription" type="RichTextLabel" parent="HUD/Control/CardTooltip/VBoxContainer" unique_id=1163881868]
 layout_mode = 2
-theme_override_font_sizes/font_size = 8
-vertical_alignment = 1
-autowrap_mode = 3
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 8
+theme_override_font_sizes/bold_font_size = 8
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
 
 [node name="PlayerTimeClocls" type="HBoxContainer" parent="HUD/Control" unique_id=1887889423]
 layout_mode = 1

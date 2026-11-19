@@ -1,5 +1,13 @@
-class_name CardDefinitions
+class_name Definitions
 extends RefCounted
+
+const PLAYER_ONE = 1
+const PLAYER_TWO = 2
+
+const COLLISION_MASK_CARD = 1
+const COLLISION_MASK_CARD_SLOT = 2
+const COLLISION_MASK_PILE = 4
+const COLLISION_MASK_INTERACTIVE = COLLISION_MASK_CARD | COLLISION_MASK_PILE
 
 enum CardType {
 	BOARD,
@@ -7,16 +15,28 @@ enum CardType {
 }
 
 enum SpecialEffects {
-	GROWTH,
-	HARDEN,
-	WANE,
-	SOFTEN,
+	START_TURN,
 	FALTER,
 	DEATHTOUCH,
 	LIFELINK,
 	ROLLOVER,
 	BONUS,
 }
+
+const EFFECT_STYLES := {
+	SpecialEffects.START_TURN: ["start_turn", "#FFB333"],
+	SpecialEffects.FALTER: ["falter", "#FFB333"],
+	SpecialEffects.DEATHTOUCH: ["deathtouch", "#7F01FE"],
+	SpecialEffects.LIFELINK: ["lifelink", "#780606"],
+	SpecialEffects.ROLLOVER: ["rollover", "#B99C96"],
+	SpecialEffects.BONUS: ["bonus", "#4EA847"],
+}
+
+const ADJACENCY_EFFECT_LABEL := "[img=16x16]res://Assets/UI/effect_adjacency.svg[/img] [b][color=#69CCF0]Adjacenct Cards[/color][/b]"
+
+static func format_effect(effect: SpecialEffects, label: String) -> String:
+	var style: Array = EFFECT_STYLES[effect]
+	return "[img=16x16]res://Assets/UI/effect_%s.svg[/img] [b][color=%s]%s[/color][/b]" % [style[0], style[1], label]
 
 const CARDS = {
 	"knight": {
@@ -71,7 +91,7 @@ const CARDS = {
 		"attack": 0,
 		"block": 4,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.LIFELINK: 1, SpecialEffects.SOFTEN: 1},
+		"special_effects": {SpecialEffects.LIFELINK: 1, SpecialEffects.START_TURN: Vector2i(0, -1)},
 		"card_type": CardType.BOARD
 	},
 	# Fragile breakthrough attackers; the siege engine deteriorates each turn.
@@ -88,7 +108,7 @@ const CARDS = {
 		"attack": 6,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.ROLLOVER: 1, SpecialEffects.WANE: 2},
+		"special_effects": {SpecialEffects.ROLLOVER: 1, SpecialEffects.START_TURN: Vector2i(-2, 0)},
 		"card_type": CardType.BOARD
 	},
 	# Low-stat removal, defensive retaliation, and attack suppression.
@@ -122,7 +142,7 @@ const CARDS = {
 		"attack": 1,
 		"block": 2,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.GROWTH: 1},
+		"special_effects": {SpecialEffects.START_TURN: Vector2i(1, 0)},
 		"card_type": CardType.BOARD
 	},
 	"stoneheart": {
@@ -130,7 +150,7 @@ const CARDS = {
 		"attack": 0,
 		"block": 2,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.HARDEN: 1},
+		"special_effects": {SpecialEffects.START_TURN: Vector2i(0, 1)},
 		"card_type": CardType.BOARD
 	},
 	"chronodrake": {
@@ -138,7 +158,7 @@ const CARDS = {
 		"attack": 1,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.GROWTH: 1, SpecialEffects.HARDEN: 1},
+		"special_effects": {SpecialEffects.START_TURN: Vector2i(1, 1)},
 		"card_type": CardType.BOARD
 	},
 	# Immediate power trades away longevity.
@@ -147,7 +167,7 @@ const CARDS = {
 		"attack": 6,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.WANE: 2, SpecialEffects.SOFTEN: 1},
+		"special_effects": {SpecialEffects.START_TURN: Vector2i(-2, -1)},
 		"card_type": CardType.BOARD
 	},
 	"glass_oracle": {
@@ -155,7 +175,7 @@ const CARDS = {
 		"attack": 4,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.FALTER: 1, SpecialEffects.WANE: 1},
+		"special_effects": {SpecialEffects.FALTER: 1, SpecialEffects.START_TURN: Vector2i(-1, 0)},
 		"card_type": CardType.BOARD
 	},
 	# Extra actions require protecting a non-attacking, deteriorating support.
@@ -164,7 +184,7 @@ const CARDS = {
 		"attack": 0,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.BONUS: 1, SpecialEffects.SOFTEN: 1},
+		"special_effects": {SpecialEffects.BONUS: 1, SpecialEffects.START_TURN: Vector2i(0, -1)},
 		"card_type": CardType.BOARD
 	},
 	# Adjacency affects immediate friendly neighbors only.
@@ -189,7 +209,7 @@ const CARDS = {
 		"attack": 1,
 		"block": 1,
 		"adjacency_effects": Vector2i(1, 1),
-		"special_effects": {SpecialEffects.SOFTEN: 1},
+		"special_effects": {SpecialEffects.START_TURN: Vector2i(0, -1)},
 		"card_type": CardType.BOARD
 	},
 	"reckless_banner": {
@@ -213,7 +233,7 @@ const CARDS = {
 		"attack": 5,
 		"block": 4,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.WANE: 1, SpecialEffects.SOFTEN: 2},
+		"special_effects": {SpecialEffects.START_TURN: Vector2i(-1, -2)},
 		"card_type": CardType.BOARD
 	}
 }

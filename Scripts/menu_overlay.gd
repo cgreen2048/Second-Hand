@@ -2,6 +2,7 @@ class_name MenuOverlay
 extends Control
 
 signal view_changed(view: Control)
+signal exited(menu: StringName)
 
 @onready var exit_button: TextureButton = $Exit
 @onready var back_button: TextureButton = $Back
@@ -10,7 +11,9 @@ signal view_changed(view: Control)
 @export var menu_scenes: Dictionary[StringName, PackedScene] = {
 	&"game_menu": preload("res://Scenes/game_menu_view.tscn"),
 	&"how_to_play": preload("res://Scenes/how_to_play_view.tscn"),
+	&"time_action": preload("res://Scenes/time_action_view.tscn"),
 	&"temporal_collapse": preload("res://Scenes/temporal_collapse_view.tscn"),
+	&"time_rewind": preload("res://Scenes/time_rewind_view.tscn"),
 	&"card_collection_view": preload("res://Scenes/card_collection_view.tscn")
 }
 
@@ -21,7 +24,7 @@ var current_view: Control
 
 
 func _ready() -> void:
-	exit_button.pressed.connect(close_menu)
+	exit_button.pressed.connect(_on_exit_pressed)
 	back_button.pressed.connect(go_back)
 	back_button.hide()
 	hide()
@@ -74,6 +77,12 @@ func go_back() -> bool:
 	var next_history: Array[StringName] = menu_history.duplicate()
 	var previous_menu: StringName = next_history.pop_back()
 	return _replace_menu(previous_menu, next_history)
+
+
+func _on_exit_pressed() -> void:
+	var closed_menu := current_menu
+	close_menu()
+	exited.emit(closed_menu)
 
 
 func close_menu() -> void:

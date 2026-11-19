@@ -3,7 +3,6 @@ extends Node2D
 
 @export var game_manager : GameManager
 @export var card_slots: Array[CardSlot]
-const PLAYER_TWO = 2
 
 var can_take_actions: bool = false
 var can_choose_defense: bool = false
@@ -25,7 +24,7 @@ func _ready() -> void:
 func take_turn_action(actions_remaining : int):
 	await get_tree().create_timer(1).timeout
 	# A queued decision must not play a card after turn-end discarding begins.
-	if game_manager.active_player != PLAYER_TWO or game_manager.phase != GameManager.Phase.ACTION:
+	if game_manager.active_player != Definitions.PLAYER_TWO or game_manager.phase != GameManager.Phase.ACTION:
 		return
 	refresh_slots()
 
@@ -40,13 +39,13 @@ func place_random_card():
 	var card_to_place = hand.hand[randi_range(0, hand.hand.size() - 1)]
 	var chosen_slot = available_placement_slots[randi_range(0, available_placement_slots.size() - 1)]
 	
-	if game_manager.request_card_placement(PLAYER_TWO, card_to_place, chosen_slot):
+	if game_manager.request_card_placement(Definitions.PLAYER_TWO, card_to_place, chosen_slot):
 		hand.remove_card_from_hand(card_to_place)
 
 func attack_with_random_card_on_board():
 	var chosen_slot = available_attack_slots[randi_range(0, available_attack_slots.size() - 1)]
 	var chosen_card = chosen_slot.card_in_slot
-	game_manager.request_attack_with_card_on_board(PLAYER_TWO, chosen_card)
+	game_manager.request_attack_with_card_on_board(Definitions.PLAYER_TWO, chosen_card)
 	
 func choose_defense():
 	refresh_slots()
@@ -58,7 +57,7 @@ func choose_defense():
 		var slot = available_combat_slots[randi_range(0, available_combat_slots.size() - 1)]
 		blocking_card = slot.card_in_slot
 
-	game_manager.request_defense_with_card(PLAYER_TWO, blocking_card)
+	game_manager.request_defense_with_card(Definitions.PLAYER_TWO, blocking_card)
 
 
 func end_turn():

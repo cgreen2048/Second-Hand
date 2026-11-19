@@ -2,12 +2,21 @@
 
 [ext_resource type="Script" uid="uid://hg7m0geg0osa" path="res://Scripts/card.gd" id="1_wf8id"]
 [ext_resource type="Texture2D" uid="uid://dmiqy51ulrydb" path="res://textures/Knight.png" id="2_brehn"]
+[ext_resource type="Texture2D" uid="uid://dw5lrurug3mvs" path="res://Assets/UI/effect_falter.svg" id="3_brehn"]
+[ext_resource type="Texture2D" uid="uid://cpt6kd5eyp5ei" path="res://Assets/UI/effect_deathtouch.svg" id="4_mm04k"]
+[ext_resource type="Texture2D" uid="uid://y0qjdnop31iy" path="res://Assets/UI/effect_lifelink.svg" id="5_yvxpl"]
+[ext_resource type="Texture2D" uid="uid://mkf73qwru83g" path="res://Assets/UI/effect_rollover.svg" id="6_uf1hq"]
+[ext_resource type="Texture2D" uid="uid://dxpe4gm8ohxin" path="res://Assets/UI/effect_bonus.svg" id="7_sj14m"]
+[ext_resource type="Texture2D" uid="uid://cgmflavdi61vq" path="res://Assets/UI/effect_start_turn.svg" id="8_pyy63"]
+[ext_resource type="Texture2D" uid="uid://0ij1fnr0gkii" path="res://Assets/UI/effect_adjacency.svg" id="9_3b2om"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h4g8a"]
 size = Vector2(39, 58)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wf8id"]
-font_color = Color(0.7254902, 0.023529412, 0.023529412, 1)
+font_color = Color(1, 0.49019608, 0.47058824, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_brehn"]
 font_color = Color(0.4117647, 0.8, 0.9411765, 1)
@@ -55,19 +64,84 @@ text = "2"
 label_settings = SubResource("LabelSettings_brehn")
 horizontal_alignment = 1
 
-[node name="Faltered" type="Label" parent="."]
-visible = false
-offset_left = -22.0
+[node name="Faltered" type="TextureRect" parent="." unique_id=1999342013]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 8.0
+offset_top = -28.0
+offset_right = 20.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_brehn")
+expand_mode = 1
+
+[node name="SpecialEffectsList" type="VBoxContainer" parent="." unique_id=1299124379]
+custom_minimum_size = Vector2(8, 8)
+offset_left = -19.0
 offset_top = -27.0
-offset_right = 22.0
-offset_bottom = -13.0
-mouse_filter = 2
-theme_override_colors/font_color = Color(1, 0.7, 0.2, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-theme_override_font_sizes/font_size = 9
-text = "Faltered"
-horizontal_alignment = 1
+offset_right = -7.0
+offset_bottom = -5.0
+theme_override_constants/separation = 0
+
+[node name="StartTurn" type="TextureRect" parent="SpecialEffectsList" unique_id=146600697]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("8_pyy63")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Falter" type="TextureRect" parent="SpecialEffectsList" unique_id=407052916]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_brehn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Lifelink" type="TextureRect" parent="SpecialEffectsList" unique_id=541644477]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("5_yvxpl")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Deathtouch" type="TextureRect" parent="SpecialEffectsList" unique_id=2063616489]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("4_mm04k")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Rollover" type="TextureRect" parent="SpecialEffectsList" unique_id=1335095581]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("6_uf1hq")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AdjacencyEffects" type="TextureRect" parent="SpecialEffectsList" unique_id=223837826]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("9_3b2om")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Bonus" type="TextureRect" parent="SpecialEffectsList" unique_id=1800022798]
+visible = false
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("7_sj14m")
+expand_mode = 1
+stretch_mode = 5
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

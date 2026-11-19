@@ -24,7 +24,7 @@ var block: int:
 		base_block = maxi(0, value)
 var card_type = null
 # Effect type -> magnitude. Each card owns its own mutable collection.
-var special_effects: Dictionary[CardDefinitions.SpecialEffects, int] = {}
+var special_effects: Dictionary[Definitions.SpecialEffects, Variant] = {}
 var falter_turns_remaining: int = 0
 
 var card_slot : CardSlot = null
@@ -41,16 +41,33 @@ var stored_position: Vector2:
 
 @onready var attack_value_label : Label = $AttackValue
 @onready var block_value_label : Label = $BlockValue
-@onready var faltered_label: Label = $Faltered
+@onready var faltered_status_icon: TextureRect = $Faltered
+@onready var deathtouch_icon: TextureRect = $SpecialEffectsList/Deathtouch
+@onready var lifelink_icon: TextureRect = $SpecialEffectsList/Lifelink
+@onready var rollover_icon: TextureRect = $SpecialEffectsList/Rollover
+@onready var falter_icon: TextureRect = $SpecialEffectsList/Falter
+@onready var bonus_icon: TextureRect = $SpecialEffectsList/Bonus
+@onready var start_turn_icon: TextureRect = $SpecialEffectsList/StartTurn
+@onready var adjacency_effects_icon: TextureRect = $SpecialEffectsList/AdjacencyEffects
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	update_card_labels()
+	update_special_effect_indicators()
+
+func update_special_effect_indicators() -> void:
+	deathtouch_icon.visible = special_effects.has(Definitions.SpecialEffects.DEATHTOUCH)
+	lifelink_icon.visible = special_effects.has(Definitions.SpecialEffects.LIFELINK)
+	rollover_icon.visible = special_effects.has(Definitions.SpecialEffects.ROLLOVER)
+	falter_icon.visible = special_effects.has(Definitions.SpecialEffects.FALTER)
+	bonus_icon.visible = special_effects.has(Definitions.SpecialEffects.BONUS)
+	start_turn_icon.visible = special_effects.has(Definitions.SpecialEffects.START_TURN)
+	adjacency_effects_icon.visible = adjacency_effects != Vector2i.ZERO
 
 func update_card_labels() -> void:
 	attack_value_label.text = str(attack)
 	block_value_label.text = str(block)
-	faltered_label.visible = falter_turns_remaining > 0
+	faltered_status_icon.visible = falter_turns_remaining > 0
 
 func apply_falter() -> void:
 	# Existing Falter cannot be refreshed or stacked.
@@ -64,7 +81,7 @@ func handle_interaction(event: InputEvent) -> void:
 
 
 func setup(id : String, owner : int):
-	var definition = CardDefinitions.CARDS[id]
+	var definition = Definitions.CARDS[id]
 	
 	definition_id = id
 	display_name = definition["display_name"]
@@ -73,10 +90,12 @@ func setup(id : String, owner : int):
 	adjacency_effects = definition.get("adjacency_effects", Vector2i.ZERO)
 	adjacency_stat_modifier = Vector2i.ZERO
 	card_type = definition["card_type"]
-	special_effects.clear()
+	special_effects.assign(definition.get("special_effects", {}))
 	falter_turns_remaining = 0
-	special_effects.merge(definition.get("special_effects", {}))
 	player_number = owner
+	if is_node_ready():
+		update_card_labels()
+		update_special_effect_indicators()
 
 
 func set_selected_card():
@@ -103,6 +122,15 @@ func get_remaining_rollover_damage(amount: float) -> float:
 	# Fractional absorption must not turn a whole HP result into an extra point.
 	return roundf(damage_left) if is_equal_approx(damage_left, roundf(damage_left)) else damage_left
 
+func get_definition_id():
+	return definition_id
+
+func get_base_attack():
+	return base_attack
+
+func get_base_block():
+	return base_block
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass

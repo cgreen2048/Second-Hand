@@ -17,20 +17,22 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -200.0
-offset_top = -61.0
+offset_top = -39.5
 offset_right = 200.0
-offset_bottom = 61.0
+offset_bottom = 39.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
 
-[node name="Prompt" type="Label" parent="OverlayVBox" unique_id=468745847]
+[node name="Prompt" type="RichTextLabel" parent="OverlayVBox" unique_id=468745847]
 custom_maximum_size = Vector2(400, -1)
 layout_mode = 2
-text = "This will cause your opponent to die in 3 turns, but your HP will be reduced to 1. You must survive for those 3 turns. Proceed?"
+bbcode_enabled = true
+text = "This will cause your opponent to lose in [b][color=#FFB333]3 turns[/color][/b], but your health will drop to [b][color=#D65B5B]1 HP[/color][/b]. You must survive those [b][color=#FFB333]3 turns[/color][/b]. Proceed?"
+fit_content = true
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 2
-autowrap_mode = 3
 
 [node name="Buttons" type="HBoxContainer" parent="OverlayVBox" unique_id=2004370129]
 layout_mode = 2

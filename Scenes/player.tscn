@@ -18,12 +18,9 @@ script = ExtResource("2_fkybt")
 
 [node name="Deck" parent="." unique_id=1891428362 instance=ExtResource("3_6t5aa")]
 position = Vector2(582, 390)
-owner_player = 1
 
 [node name="Graveyard" parent="." unique_id=838771951 instance=ExtResource("5_fkybt")]
 position = Vector2(58, 320)
-owner_player = 1
 
 [node name="DiscardPile" parent="." unique_id=1054768240 instance=ExtResource("6_x3wgy")]
 position = Vector2(58, 390)
-owner_player = 1

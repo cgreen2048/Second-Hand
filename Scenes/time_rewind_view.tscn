@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://d3tlyvnojp6ig"]
+
+[ext_resource type="Script" uid="uid://ctp1uwc5103bd" path="res://Scripts/time_rewind_view.gd" id="1_41uk0"]
+[ext_resource type="Texture2D" uid="uid://c0auulg7rxdhy" path="res://Assets/UI/LeftTimeArrow.png" id="2_oahi4"]
+[ext_resource type="Texture2D" uid="uid://c0n5d8sxs00wn" path="res://Assets/UI/LeftTimeArrowPressed.png" id="3_71yig"]
+[ext_resource type="Texture2D" uid="uid://br6e32nmuwsm0" path="res://Assets/UI/RightTimeArrow.png" id="3_e58cl"]
+[ext_resource type="Texture2D" uid="uid://cs778rch3hqj" path="res://Assets/UI/LeftTimeArrowHover.png" id="4_ybc81"]
+[ext_resource type="Texture2D" uid="uid://b8lcnw7iskyeq" path="res://Assets/UI/LeftTimeArrowDisabled.png" id="5_u7v1x"]
+[ext_resource type="Texture2D" uid="uid://drk0vvn55v5o" path="res://Assets/UI/RightTimeArrowPressed.png" id="6_u7v1x"]
+[ext_resource type="Texture2D" uid="uid://cljq5cxmxj2bs" path="res://Assets/UI/RightTimeArrowHover.png" id="7_buedw"]
+[ext_resource type="Texture2D" uid="uid://5bajgjq475fa" path="res://Assets/UI/RightTimeArrowDisabled.png" id="8_ybc81"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_preview"]
+blend_mode = 4
+
+[node name="TimeRewindView" type="MarginContainer" unique_id=721015293]
+script = ExtResource("1_41uk0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=799061464]
+layout_mode = 2
+alignment = 1
+
+[node name="HistoryPosition" type="Label" parent="VBoxContainer" unique_id=359220125]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "1 Action Ago"
+horizontal_alignment = 1
+
+[node name="BoardRow" type="HBoxContainer" parent="VBoxContainer" unique_id=137987831]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="BackwardWrapper" type="Control" parent="VBoxContainer/BoardRow" unique_id=1143448392]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="BackwardInTime" type="TextureButton" parent="VBoxContainer/BoardRow/BackwardWrapper" unique_id=849129433]
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_top = 68.0
+offset_right = 64.0
+offset_bottom = 132.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("2_oahi4")
+texture_pressed = ExtResource("3_71yig")
+texture_hover = ExtResource("4_ybc81")
+texture_disabled = ExtResource("5_u7v1x")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="BoardPreview" type="SubViewportContainer" parent="VBoxContainer/BoardRow" unique_id=2059457327]
+material = SubResource("CanvasItemMaterial_preview")
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+stretch = true
+
+[node name="BoardViewport" type="SubViewport" parent="VBoxContainer/BoardRow/BoardPreview" unique_id=532689223]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(2, 200)
+render_target_update_mode = 4
+
+[node name="ForwardWrapper" type="Control" parent="VBoxContainer/BoardRow" unique_id=1453412281]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+
+[node name="ForwardInTime" type="TextureButton" parent="VBoxContainer/BoardRow/ForwardWrapper" unique_id=2024888379]
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = -34.0
+offset_top = 68.0
+offset_right = 30.0
+offset_bottom = 132.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("3_e58cl")
+texture_pressed = ExtResource("6_u7v1x")
+texture_hover = ExtResource("7_buedw")
+texture_disabled = ExtResource("8_ybc81")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Buttons" type="HBoxContainer" parent="VBoxContainer" unique_id=833253150]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_constants/separation = 120
+alignment = 1
+
+[node name="RewindTime" type="Button" parent="VBoxContainer/Buttons" unique_id=695665580]
+visible = false
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="Cancel" type="Button" parent="VBoxContainer/Buttons" unique_id=1705021429]
+visible = false
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+text = "Cancel"
