@@ -43,8 +43,8 @@ var stored_position: Vector2:
 @onready var block_value_label : Label = $BlockValue
 @onready var faltered_status_icon: TextureRect = $Faltered
 @onready var deathtouch_icon: TextureRect = $SpecialEffectsList/Deathtouch
-@onready var lifelink_icon: TextureRect = $SpecialEffectsList/Lifelink
-@onready var rollover_icon: TextureRect = $SpecialEffectsList/Rollover
+@onready var retaliation_icon: TextureRect = $SpecialEffectsList/Retaliation
+@onready var piercing_icon: TextureRect = $SpecialEffectsList/Piercing
 @onready var falter_icon: TextureRect = $SpecialEffectsList/Falter
 @onready var bonus_icon: TextureRect = $SpecialEffectsList/Bonus
 @onready var start_turn_icon: TextureRect = $SpecialEffectsList/StartTurn
@@ -57,17 +57,30 @@ func _ready() -> void:
 
 func update_special_effect_indicators() -> void:
 	deathtouch_icon.visible = special_effects.has(Definitions.SpecialEffects.DEATHTOUCH)
-	lifelink_icon.visible = special_effects.has(Definitions.SpecialEffects.LIFELINK)
-	rollover_icon.visible = special_effects.has(Definitions.SpecialEffects.ROLLOVER)
+	retaliation_icon.visible = special_effects.has(Definitions.SpecialEffects.RETALIATION)
+	piercing_icon.visible = special_effects.has(Definitions.SpecialEffects.PIERCING)
 	falter_icon.visible = special_effects.has(Definitions.SpecialEffects.FALTER)
 	bonus_icon.visible = special_effects.has(Definitions.SpecialEffects.BONUS)
 	start_turn_icon.visible = special_effects.has(Definitions.SpecialEffects.START_TURN)
 	adjacency_effects_icon.visible = adjacency_effects != Vector2i.ZERO
 
+
 func update_card_labels() -> void:
 	attack_value_label.text = str(attack)
 	block_value_label.text = str(block)
 	faltered_status_icon.visible = falter_turns_remaining > 0
+	
+func set_face_down(cards_face_down : bool) -> void:
+	$CardBack.visible = cards_face_down
+	$KnightCard.visible = not cards_face_down
+	$AttackValue.visible = not cards_face_down
+	$BlockValue.visible = not cards_face_down
+	$SpecialEffectsList.visible = not cards_face_down
+	if cards_face_down:
+		$Faltered.hide()
+	else:
+		update_card_labels()
+	
 
 func apply_falter() -> void:
 	# Existing Falter cannot be refreshed or stacked.
@@ -117,7 +130,7 @@ func take_damage(amount: float) -> bool:
 func get_incoming_damage_multiplier() -> float:
 	return 1.5 if falter_turns_remaining > 0 else 1.0
 
-func get_remaining_rollover_damage(amount: float) -> float:
+func get_remaining_piercing_damage(amount: float) -> float:
 	var damage_left: float = maxf(0.0, amount - block / get_incoming_damage_multiplier())
 	# Fractional absorption must not turn a whole HP result into an extra point.
 	return roundf(damage_left) if is_equal_approx(damage_left, roundf(damage_left)) else damage_left

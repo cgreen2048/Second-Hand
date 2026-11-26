@@ -25,18 +25,21 @@ size_flags_vertical = 4
 theme_override_constants/separation = 16
 
 [node name="HowToPlay" type="Button" parent="GameMenu" unique_id=1299044711]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(200, 44)
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_2vjaj")
 text = "How to Play"
 
 [node name="MainMenu" type="Button" parent="GameMenu" unique_id=38678433]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(200, 44)
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_2vjaj")
 text = "Main Menu"
 
 [node name="QuitGame" type="Button" parent="GameMenu" unique_id=1792755163]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(200, 44)
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_2vjaj")

@@ -5,13 +5,12 @@ extends Node2D
 
 signal discard_selection_changed(has_selection: bool)
 
-const DRAG_THRESHOLD = 8.0
+const DRAG_THRESHOLD = 4.0
 const TOOLTIP_DELAY := 0.25
 
 enum ActionMode {
 	NONE,
 	ATTACK,
-	AWAITING_BLOCK,
 	BLOCK,
 	LOCKED,
 	DISCARD,
@@ -36,11 +35,14 @@ var action_stack : Array[ActionMode] = []
 var action_mode : ActionMode = ActionMode.LOCKED
 var discard_hand_limit: int = 4
 var discard_in_progress: bool = false
+var board_cursor_shape := Input.CURSOR_ARROW
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
+	Input.set_custom_mouse_cursor(preload("res://textures/cursor_grab_open.png"), Input.CURSOR_DRAG, Vector2(16, 17))
+	Input.set_custom_mouse_cursor(preload("res://textures/cursor_grab_closed.png"), Input.CURSOR_CAN_DROP, Vector2(16, 17))
 
 
 func _input(event):
@@ -51,7 +53,7 @@ func _input(event):
 		pressed_time_stop_slot = null
 		is_dragging = false
 		return
-	if action_mode in [ActionMode.LOCKED, ActionMode.AWAITING_BLOCK, ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION]:
+	if action_mode in [ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION]:
 		return
 	if action_mode == ActionMode.TIME_STOP:
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -68,6 +70,9 @@ func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			pressed_element = raycast_check_for_element(Definitions.COLLISION_MASK_INTERACTIVE) as InteractiveElement
+			if action_mode == ActionMode.LOCKED and not can_inspect_card_collection(pressed_element):
+				pressed_element = null
+				return
 			if pressed_element is Card:
 				game_manager.request_hide_card_tooltip(pressed_element)
 				hover_elapsed = 0.0
@@ -85,7 +90,7 @@ func _input(event):
 				else:
 					var released_over = raycast_check_for_element(Definitions.COLLISION_MASK_INTERACTIVE)
 					if pressed_element == released_over:
-						if not pressed_element is Card and action_mode == ActionMode.NONE:
+						if can_inspect_card_collection(pressed_element) or (not pressed_element is Card and action_mode == ActionMode.NONE):
 							pressed_element.handle_interaction(event)
 						match action_mode:
 							ActionMode.ATTACK:
@@ -101,7 +106,7 @@ func _input(event):
 			pressed_element = null
 			is_dragging = false
 	elif is_instance_valid(pressed_element) and event is InputEventMouseMotion:
-		if not is_dragging and pressed_element is Card and action_mode == ActionMode.NONE:
+		if not is_dragging and action_mode == ActionMode.NONE and is_draggable_hand_card(pressed_element):
 			if event.position.distance_to(press_position) >= DRAG_THRESHOLD:
 				is_dragging = true
 
@@ -141,11 +146,6 @@ func attack_with_card_on_board(attacking_card: Card):
 	# display error if false
 
 func choose_defense():
-	update_action_mode(ActionMode.AWAITING_BLOCK)
-
-func begin_defense():
-	if action_mode != ActionMode.AWAITING_BLOCK:
-		return
 	update_action_mode(ActionMode.BLOCK)
 
 func defend_with_card(blocking_card: Card):
@@ -247,7 +247,7 @@ func clear_selected_card() -> void:
 
 
 func cancel_action():
-	if action_stack.is_empty() or action_mode not in [ActionMode.ATTACK, ActionMode.TIME_STOP, ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION, ActionMode.TIME_REWIND_MENU, ActionMode.BLOCK]:
+	if action_stack.is_empty() or action_mode not in [ActionMode.ATTACK, ActionMode.TIME_STOP, ActionMode.TIME_ACTION_MENU, ActionMode.TEMPORAL_COLLAPSE_CONFIRMATION, ActionMode.TIME_REWIND_MENU]:
 		return
 	action_stack.pop_back()
 
@@ -263,7 +263,7 @@ func update_state(allow_actions: bool, allow_defense: bool) -> void:
 	action_stack.clear()
 
 	if allow_defense:
-		action_mode = ActionMode.AWAITING_BLOCK
+		action_mode = ActionMode.BLOCK
 	elif allow_actions:
 		action_mode = ActionMode.NONE
 	else:
@@ -340,14 +340,59 @@ func raycast_check_for_element(collision_mask: int = Definitions.COLLISION_MASK_
 		return result[0].collider
 	return null
 
+func get_board_cursor_shape() -> Input.CursorShape:
+	if is_dragging and is_instance_valid(pressed_element) and is_draggable_hand_card(pressed_element):
+		return Input.CURSOR_CAN_DROP
+	if action_mode == ActionMode.TIME_STOP:
+		var slot := raycast_check_for_element(Definitions.COLLISION_MASK_CARD_SLOT) as CardSlot
+		if slot != null and slot.card_in_slot == null and slot.time_stopped <= 0:
+			return Input.CURSOR_POINTING_HAND
+		return Input.CURSOR_ARROW
+	if action_mode not in [ActionMode.NONE, ActionMode.LOCKED]:
+		return Input.CURSOR_ARROW
+
+	var target = raycast_check_for_element(Definitions.COLLISION_MASK_INTERACTIVE)
+	if can_inspect_card_collection(target):
+		return Input.CURSOR_POINTING_HAND
+	if action_mode == ActionMode.LOCKED:
+		return Input.CURSOR_ARROW
+	if is_draggable_hand_card(target):
+		return Input.CURSOR_DRAG
+	if target is DiscardPile or target is Graveyard:
+		if target.owner_player == Definitions.PLAYER_ONE:
+			return Input.CURSOR_POINTING_HAND
+	return Input.CURSOR_ARROW
+
+
+func can_inspect_card_collection(target) -> bool:
+	return (action_mode in [ActionMode.NONE, ActionMode.LOCKED] 
+	and (target is Deck or target is Graveyard or target is DiscardPile)
+	and target.owner_player == Definitions.PLAYER_ONE)
+	
+
+
+func is_draggable_hand_card(target) -> bool:
+	return target is Card and target.get_parent() == hand and target in hand.hand
+
+
+func update_board_cursor(shape: Input.CursorShape) -> void:
+	if board_cursor_shape != shape:
+		board_cursor_shape = shape
+		Input.set_default_cursor_shape(shape)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if game_manager.is_world_input_blocked():
+		update_board_cursor(Input.CURSOR_ARROW)
 		return
+	update_board_cursor(get_board_cursor_shape())
 	if is_instance_valid(hovered_card) and not tooltip_shown:
 		hover_elapsed += delta
 
 	if hover_elapsed >= TOOLTIP_DELAY:
 		game_manager.request_show_card_tooltip(hovered_card)
 		tooltip_shown = true
+
+
+func _exit_tree() -> void:
+	update_board_cursor(Input.CURSOR_ARROW)

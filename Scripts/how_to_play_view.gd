@@ -31,8 +31,8 @@ For example, a card with [color=#FF7D78]+2[/color]/[color=#69CCF0]-1[/color] wil
 
 [b]Falter:[/b] This card causes the card that [color=#69CCF0]blocks[/color] it to enter the Falter status. Until the next turn, the card [b]cannot [color=#FF7D78]attack[/color][/b] and takes [b]1.5x damage[/b] when blocking
 [b]Deathtouch:[/b] Instantly kills anything that the card [color=#FF7D78]attacks[/color] (not including the player/opponent). Can trigger multiple times.
-[b]Lifelink:[/b] If this card dies while it [color=#69CCF0]blocks[/color], it kills its attacker as well
-[b]Rollover:[/b] Any extra damage from this card when it [color=#FF7D78]attacks[/color] that is not blocked by the blocker will require the defender to choose another blocking card or take the remaining damage to their HP. For example, after blocking 3 damage off a 4 damage Rollover attack, the opponent must block the additional 1 damage.
+[b]Retaliation:[/b] If this card dies while it [color=#69CCF0]blocks[/color], it kills its attacker as well
+[b]Piercing:[/b] Any extra damage from this card when it [color=#FF7D78]attacks[/color] that is not blocked by the blocker will require the defender to choose another blocking card or take the remaining damage to their HP. For example, after blocking 3 damage off a 4 damage Piercing attack, the opponent must block the additional 1 damage.
 		",
 		"image": null
 	},
@@ -151,7 +151,7 @@ Scroll through the board history to determine which slot at which point in histo
 		"video": preload("res://Assets/HowToPlay/TimeRewind.ogv")
 	},
 	"BorrowedTime": {
-		"text": "For [b][color=#D65B5B]3 HP[/color][/b], the player can activate [color=#FFB333]Borrowed Time[/color] to [b]gain another action[/b] without spending one to use this [color=#FFB333]Borrowed Time[/color].
+		"text": "The player can activate [color=#FFB333]Borrowed Time[/color] to [b]gain another action[/b] without spending one to use this [color=#FFB333]Borrowed Time[/color].
 		
 This time, however, is borrowed, as the player will repay their debt by [b]losing an action 3 turns later[/b]. This can be used to take an extra action in a pivotal moment that would otherwise be impossible to avert.
 		",
@@ -258,7 +258,7 @@ func _show_section(section: VBoxContainer, topic_id: String, heading: String = "
 			body = body.replace("[b]Bonus:[/b]", Definitions.format_effect(Definitions.SpecialEffects.BONUS, "Bonus") + ":")
 			body = body.replace("[b]Adjacency Effects:[/b]", Definitions.ADJACENCY_EFFECT_LABEL + ":")
 		"CombatEffects":
-			for effect in [Definitions.SpecialEffects.FALTER, Definitions.SpecialEffects.DEATHTOUCH, Definitions.SpecialEffects.LIFELINK, Definitions.SpecialEffects.ROLLOVER]:
+			for effect in [Definitions.SpecialEffects.FALTER, Definitions.SpecialEffects.DEATHTOUCH, Definitions.SpecialEffects.RETALIATION, Definitions.SpecialEffects.PIERCING]:
 				var label: String = Definitions.SpecialEffects.find_key(effect).capitalize()
 				body = body.replace("[b]%s:[/b]" % label, Definitions.format_effect(effect, label) + ":")
 	info_text.text = body

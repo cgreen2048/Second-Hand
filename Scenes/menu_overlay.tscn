@@ -48,6 +48,7 @@ offset_bottom = 420.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_h4g8a")
 
 [node name="Exit" type="TextureButton" parent="." unique_id=1236023513]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(40, 40)
 custom_maximum_size = Vector2(40, 40)
 layout_mode = 0
@@ -64,6 +65,7 @@ stretch_mode = 5
 [node name="ButtonBackground" parent="Exit" unique_id=1219873165 instance=ExtResource("2_button_background")]
 
 [node name="Back" type="TextureButton" parent="." unique_id=1034967760]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(40, 40)
 custom_maximum_size = Vector2(40, 40)
 layout_mode = 0

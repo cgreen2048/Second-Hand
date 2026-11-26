@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://hg7m0geg0osa" path="res://Scripts/card.gd" id="1_wf8id"]
 [ext_resource type="Texture2D" uid="uid://dmiqy51ulrydb" path="res://textures/Knight.png" id="2_brehn"]
-[ext_resource type="Texture2D" uid="uid://dw5lrurug3mvs" path="res://Assets/UI/effect_falter.svg" id="3_brehn"]
-[ext_resource type="Texture2D" uid="uid://cpt6kd5eyp5ei" path="res://Assets/UI/effect_deathtouch.svg" id="4_mm04k"]
-[ext_resource type="Texture2D" uid="uid://y0qjdnop31iy" path="res://Assets/UI/effect_lifelink.svg" id="5_yvxpl"]
-[ext_resource type="Texture2D" uid="uid://mkf73qwru83g" path="res://Assets/UI/effect_rollover.svg" id="6_uf1hq"]
-[ext_resource type="Texture2D" uid="uid://dxpe4gm8ohxin" path="res://Assets/UI/effect_bonus.svg" id="7_sj14m"]
-[ext_resource type="Texture2D" uid="uid://cgmflavdi61vq" path="res://Assets/UI/effect_start_turn.svg" id="8_pyy63"]
-[ext_resource type="Texture2D" uid="uid://0ij1fnr0gkii" path="res://Assets/UI/effect_adjacency.svg" id="9_3b2om"]
+[ext_resource type="Texture2D" uid="uid://nbrt2524coco" path="res://Assets/UI/effect_falter.png" id="3_u5wvb"]
+[ext_resource type="Texture2D" uid="uid://b03q3bkijbsaa" path="res://Assets/UI/effect_start_turn.png" id="4_u5wvb"]
+[ext_resource type="Texture2D" uid="uid://0kmv6qm1bqwt" path="res://Assets/UI/effect_deathtouch.png" id="5_mm04k"]
+[ext_resource type="Texture2D" uid="uid://cwinylr1lqsj" path="res://Assets/UI/effect_piercing.png" id="7_mm04k"]
+[ext_resource type="Texture2D" uid="uid://bdhvmntbvulv2" path="res://Assets/UI/effect_bonus.png" id="8_mm04k"]
+[ext_resource type="Texture2D" uid="uid://bwfmxw4sa44cm" path="res://Assets/UI/effect_adjacency.png" id="9_3b2om"]
+[ext_resource type="Texture2D" uid="uid://britsxt7g332b" path="res://textures/CardBack.png" id="9_mm04k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h4g8a"]
 size = Vector2(39, 58)
@@ -20,6 +20,11 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_brehn"]
 font_color = Color(0.4117647, 0.8, 0.9411765, 1)
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yvxpl"]
+load_path = "res://.godot/imported/effect_retaliation.png-e1f78eb6d156004600ae8405f29e8284.ctex"
 
 [node name="Card" type="Area2D" unique_id=1308198920]
 script = ExtResource("1_wf8id")
@@ -76,7 +81,7 @@ offset_right = 20.0
 offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_brehn")
+texture = ExtResource("3_u5wvb")
 expand_mode = 1
 
 [node name="SpecialEffectsList" type="VBoxContainer" parent="." unique_id=1299124379]
@@ -91,7 +96,7 @@ theme_override_constants/separation = 0
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-texture = ExtResource("8_pyy63")
+texture = ExtResource("4_u5wvb")
 expand_mode = 1
 stretch_mode = 5
 
@@ -99,15 +104,15 @@ stretch_mode = 5
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-texture = ExtResource("3_brehn")
+texture = ExtResource("3_u5wvb")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Lifelink" type="TextureRect" parent="SpecialEffectsList" unique_id=541644477]
+[node name="Retaliation" type="TextureRect" parent="SpecialEffectsList" unique_id=541644477]
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-texture = ExtResource("5_yvxpl")
+texture = SubResource("CompressedTexture2D_yvxpl")
 expand_mode = 1
 stretch_mode = 5
 
@@ -115,15 +120,15 @@ stretch_mode = 5
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-texture = ExtResource("4_mm04k")
+texture = ExtResource("5_mm04k")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="Rollover" type="TextureRect" parent="SpecialEffectsList" unique_id=1335095581]
+[node name="Piercing" type="TextureRect" parent="SpecialEffectsList" unique_id=1335095581]
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-texture = ExtResource("6_uf1hq")
+texture = ExtResource("7_mm04k")
 expand_mode = 1
 stretch_mode = 5
 
@@ -139,9 +144,19 @@ stretch_mode = 5
 visible = false
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
-texture = ExtResource("7_sj14m")
+texture = ExtResource("8_mm04k")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="CardBack" type="TextureRect" parent="." unique_id=1049227590]
+visible = false
+offset_left = -20.0
+offset_top = -29.0
+offset_right = 19.0
+offset_bottom = 29.0
+mouse_filter = 2
+texture = ExtResource("9_mm04k")
+expand_mode = 1
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

@@ -35,6 +35,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 0
 
 [node name="GettingStarted" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=89180011]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -54,6 +55,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Cards" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1352086459]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -65,6 +67,7 @@ text = "Cards"
 alignment = 0
 
 [node name="Hand" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1537928166]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -76,6 +79,7 @@ text = "Hand"
 alignment = 0
 
 [node name="GameBoard" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=731128812]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -87,6 +91,7 @@ text = "The Game Board"
 alignment = 0
 
 [node name="PlayingCards" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1932642277]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -98,6 +103,7 @@ text = "Playing Cards"
 alignment = 0
 
 [node name="TakingATurn" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=181106339]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -109,6 +115,7 @@ text = "Taking a Turn"
 alignment = 0
 
 [node name="HowToWin" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/GettingStartedOptions/Topics" unique_id=1738494392]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -120,6 +127,7 @@ text = "How to Win"
 alignment = 0
 
 [node name="PlayerAndOpponent" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1731739279]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -140,6 +148,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="HP" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/PlayerAndOpponentOptions/Topics" unique_id=965098711]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -151,6 +160,7 @@ text = "HP"
 alignment = 0
 
 [node name="CardPiles" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/PlayerAndOpponentOptions/Topics" unique_id=948296759]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -163,6 +173,7 @@ alignment = 0
 autowrap_mode = 2
 
 [node name="Combat" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1871783412]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -182,6 +193,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Attacking" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/CombatOptions/Topics" unique_id=616984607]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -193,6 +205,7 @@ text = "Attacking"
 alignment = 0
 
 [node name="Blocking" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/CombatOptions/Topics" unique_id=627068292]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -204,6 +217,7 @@ text = "Blocking"
 alignment = 0
 
 [node name="AdvancedGameplay" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox" unique_id=1915797603]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -223,6 +237,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="TimeActions" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics" unique_id=1953115942]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -242,6 +257,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="TimeStop" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=1490352831]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -251,6 +267,7 @@ text = "Time Stop"
 alignment = 0
 
 [node name="TimeRewind" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=283112051]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -260,6 +277,7 @@ text = "Time Rewind"
 alignment = 0
 
 [node name="BorrowedTime" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=105304170]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -269,6 +287,7 @@ text = "Borrowed Time"
 alignment = 0
 
 [node name="TemporalCollapse" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/TimeActionsOptions/Topics" unique_id=2084149688]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -278,6 +297,7 @@ text = "Temporal Collapse"
 alignment = 0
 
 [node name="CardSpecialEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics" unique_id=1310828661]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -297,6 +317,7 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="StartOfTurnEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions/Topics" unique_id=346539147]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -308,6 +329,7 @@ text = "Start of Turn Effects"
 alignment = 0
 
 [node name="CombatEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions/Topics" unique_id=283928355]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")
@@ -319,6 +341,7 @@ text = "Combat Effects"
 alignment = 0
 
 [node name="OnPlayedEffects" type="Button" parent="OverlayColumns/OptionsScroll/OptionsBox/AdvancedGameplayOptions/Topics/CardSpecialEffectsOptions/Topics" unique_id=1543024660]
+mouse_default_cursor_shape = 2
 layout_mode = 2
 theme_override_styles/normal = ExtResource("1_3htkh")
 theme_override_styles/pressed = ExtResource("2_hqd3o")

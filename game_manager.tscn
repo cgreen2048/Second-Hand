@@ -163,7 +163,7 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 
-[node name="RolloverDamage" type="Label" parent="HUD/Control" unique_id=1515939581]
+[node name="PiercingDamage" type="RichTextLabel" parent="HUD/Control" unique_id=363296373]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -171,13 +171,17 @@ anchor_left = 0.98
 anchor_top = 0.98
 anchor_right = 0.98
 anchor_bottom = 0.98
-offset_left = -260.0
-offset_top = -60.0
-offset_bottom = -34.0
+offset_left = -344.2
+offset_top = -28.400024
+offset_right = -84.20001
+offset_bottom = -2.4000244
 grow_horizontal = 0
 grow_vertical = 0
-text = "0 damage remaining"
+bbcode_enabled = true
+text = "0 piercing damage remaining"
+scroll_active = false
 horizontal_alignment = 2
+vertical_alignment = 1
 
 [node name="PlayerTurnUIHBox" type="HBoxContainer" parent="HUD/Control" unique_id=725557123]
 visible = false
@@ -194,6 +198,7 @@ grow_vertical = 0
 layout_mode = 2
 tooltip_text = "Attack with a card on your side of the board"
 mouse_filter = 1
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 0.4901961, 0.4705882, 1)
 theme_override_colors/font_focus_color = Color(1, 0.4901961, 0.4705882, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.4901961, 0.4705882, 1)
@@ -206,6 +211,7 @@ script = ExtResource("13_action_tooltip")
 layout_mode = 2
 tooltip_text = "Choose a time action"
 mouse_filter = 1
+mouse_default_cursor_shape = 2
 theme_override_colors/font_color = Color(1, 0.8196078, 0.4, 1)
 theme_override_colors/font_focus_color = Color(1, 0.8196078, 0.4, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.8196078, 0.4, 1)
@@ -218,6 +224,7 @@ script = ExtResource("13_action_tooltip")
 layout_mode = 2
 tooltip_text = "End your turn instantly"
 mouse_filter = 1
+mouse_default_cursor_shape = 2
 text = "End Turn"
 
 [node name="DefendingUIHBox" type="HBoxContainer" parent="HUD/Control" unique_id=1657271761]
@@ -231,22 +238,11 @@ anchor_bottom = 0.98
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="BlockButton" type="Button" parent="HUD/Control/DefendingUIHBox" unique_id=956021394]
-layout_mode = 2
-tooltip_text = "Block with a card on your side of the board"
-mouse_filter = 1
-theme_override_colors/font_color = Color(0.4117647, 0.8, 0.9411765, 1)
-theme_override_colors/font_focus_color = Color(0.4117647, 0.8, 0.9411765, 1)
-theme_override_colors/font_pressed_color = Color(0.4117647, 0.8, 0.9411765, 1)
-theme_override_colors/font_hover_color = Color(0.4117647, 0.8, 0.9411765, 1)
-theme_override_colors/font_hover_pressed_color = Color(0.4117647, 0.8, 0.9411765, 1)
-text = "Block"
-script = ExtResource("13_action_tooltip")
-
 [node name="NoBlockButton" type="Button" parent="HUD/Control/DefendingUIHBox" unique_id=1752114319]
 layout_mode = 2
 tooltip_text = "Don't block and take direct damage to your HP"
 mouse_filter = 1
+mouse_default_cursor_shape = 2
 text = "No Block"
 script = ExtResource("13_action_tooltip")
 
@@ -265,6 +261,7 @@ visible = false
 layout_mode = 2
 tooltip_text = "Cancel your currently selected action"
 mouse_filter = 1
+mouse_default_cursor_shape = 2
 text = "Cancel"
 
 [node name="DiscardUI" type="VBoxContainer" parent="HUD/Control" unique_id=1970991953]
@@ -291,6 +288,7 @@ horizontal_alignment = 2
 layout_mode = 2
 tooltip_text = "Discard the selected card"
 mouse_filter = 1
+mouse_default_cursor_shape = 2
 disabled = true
 text = "Discard"
 
@@ -305,6 +303,7 @@ offset_left = -40.0
 offset_bottom = 40.0
 grow_horizontal = 0
 tooltip_text = "Open Menu"
+mouse_default_cursor_shape = 2
 texture_normal = ExtResource("7_gth8u")
 texture_pressed = ExtResource("8_dq8jp")
 texture_hover = ExtResource("9_yawsv")

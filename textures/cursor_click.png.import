@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgmflavdi61vq"
-path="res://.godot/imported/effect_start_turn.svg-dd0e40e3cb7ec123831cb9ff8eee8bb8.ctex"
+uid="uid://dsijh8pe86r2i"
+path="res://.godot/imported/cursor_click.png-124db1b692dddcefaf6815f16efee7c6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/effect_start_turn.svg"
-dest_files=["res://.godot/imported/effect_start_turn.svg-dd0e40e3cb7ec123831cb9ff8eee8bb8.ctex"]
+source_file="res://textures/cursor_click.png"
+dest_files=["res://.godot/imported/cursor_click.png-124db1b692dddcefaf6815f16efee7c6.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

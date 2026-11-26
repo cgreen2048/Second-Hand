@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://0ij1fnr0gkii"
-path="res://.godot/imported/effect_adjacency.svg-85196ddd4c872dcb3d1ade3f2ab0e925.ctex"
+uid="uid://deh4xjpxu5fay"
+path="res://.godot/imported/cursor_grab_closed.png-148f7cdb853993356e06b310eec34ddc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/effect_adjacency.svg"
-dest_files=["res://.godot/imported/effect_adjacency.svg-85196ddd4c872dcb3d1ade3f2ab0e925.ctex"]
+source_file="res://textures/cursor_grab_closed.png"
+dest_files=["res://.godot/imported/cursor_grab_closed.png-148f7cdb853993356e06b310eec34ddc.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

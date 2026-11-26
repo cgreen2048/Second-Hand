@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw5lrurug3mvs"
-path="res://.godot/imported/effect_falter.svg-8ba2b24a4bbcc347fc19f61b5d0ad732.ctex"
+uid="uid://chniurj8otj8j"
+path="res://.godot/imported/cursor_grab_open.png-5c29cf18888339652e2bb2226fa3e4a4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/effect_falter.svg"
-dest_files=["res://.godot/imported/effect_falter.svg-8ba2b24a4bbcc347fc19f61b5d0ad732.ctex"]
+source_file="res://textures/cursor_grab_open.png"
+dest_files=["res://.godot/imported/cursor_grab_open.png-5c29cf18888339652e2bb2226fa3e4a4.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

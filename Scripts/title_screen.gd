@@ -7,6 +7,12 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Input.set_custom_mouse_cursor(
+		preload("res://textures/cursor_click.png"),
+		Input.CURSOR_POINTING_HAND,
+		Vector2(3, 2) # Example: use your sprite's fingertip coordinates.
+	)
+	
 	play_match_button.pressed.connect(_on_play_match_button_pressed)
 	how_to_play_button.pressed.connect(_on_how_to_play_button_pressed)
 	quit_game_button.pressed.connect(_on_quit_game_button_pressed)

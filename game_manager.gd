@@ -37,7 +37,7 @@ var time_action_taken: bool = false
 var pending_attacker : Card = null
 var pending_defender : int = 0
 var remaining_damage: float = 0.0
-var pending_rollover: bool = false
+var pending_piercing: bool = false
 var pending_board_snapshot: BoardState
 var pending_attack_slot: CardSlot = null
 
@@ -151,6 +151,7 @@ func request_card_placement(player: int, card: Card, card_slot: CardSlot):
 	card_slot.card_in_slot = card
 	card.card_slot = card_slot
 	card.stored_position = card_slot.global_position
+	card.set_face_down(false)
 	card.reparent(board)
 	card.show()
 
@@ -182,14 +183,14 @@ func request_attack_with_card_on_board(attacker: int, attacking_card: Card):
 	pending_attacker = attacking_card
 	pending_defender = Definitions.PLAYER_TWO if attacker == Definitions.PLAYER_ONE else Definitions.PLAYER_ONE
 	remaining_damage = attacking_card.attack
-	pending_rollover = Definitions.SpecialEffects.ROLLOVER in attacking_card.special_effects
+	pending_piercing = Definitions.SpecialEffects.PIERCING in attacking_card.special_effects
 	pending_attack_slot = attacking_card.card_slot
 	request_pending_attack_defense()
 	return true
 
 
 func request_pending_attack_defense() -> void:
-	if pending_rollover and is_zero_approx(remaining_damage):
+	if pending_piercing and is_zero_approx(remaining_damage):
 		finish_pending_attack()
 		return
 	phase = Phase.AWAITING_DEFENSE
@@ -197,11 +198,12 @@ func request_pending_attack_defense() -> void:
 	if pending_defender == Definitions.PLAYER_ONE:
 		if is_instance_valid(pending_attacker):
 			board.set_card_attacking_marker(pending_attack_slot, true)
+			await get_tree().create_timer(1).timeout
 	else:
 		board.clear_player_combat_markers()
 		hud.set_cancel_visible(false)
 	update_controllers()
-	hud.set_rollover_damage(remaining_damage, pending_rollover and pending_defender == Definitions.PLAYER_ONE)
+	hud.set_piercing_damage(remaining_damage, pending_piercing and pending_defender == Definitions.PLAYER_ONE)
 
 	if board.is_card_slot_available_for_action(pending_defender):
 		var controller = get_node(controllers[pending_defender])
@@ -240,15 +242,15 @@ func request_defense_with_card(defender : int, defending_card: Card):
 	if is_instance_valid(pending_attacker):
 		remaining_damage = await resolve_attack_with_card_on_board(pending_attacker, defending_card, remaining_damage)
 	else:
-		remaining_damage = await resolve_rollover_damage(remaining_damage, defending_card)
+		remaining_damage = await resolve_piercing_damage(remaining_damage, defending_card)
 
 	if pending_attack_slot != null:
 		board.set_card_attacking_marker(pending_attack_slot, false)
 	if defending_slot != null:
 		board.set_card_blocking_marker(defending_slot, false)
 
-	hud.set_rollover_damage(remaining_damage, pending_rollover and pending_defender == Definitions.PLAYER_ONE)
-	if pending_rollover and remaining_damage > 0.0:
+	hud.set_piercing_damage(remaining_damage, pending_piercing and pending_defender == Definitions.PLAYER_ONE)
+	if pending_piercing and remaining_damage > 0.0:
 		request_pending_attack_defense()
 	else:
 		finish_pending_attack()
@@ -261,9 +263,9 @@ func finish_pending_attack() -> void:
 	pending_attacker = null
 	pending_defender = -1
 	pending_attack_slot = null
-	pending_rollover = false
+	pending_piercing = false
 	remaining_damage = 0.0
-	hud.set_rollover_damage(0.0, false)
+	hud.set_piercing_damage(0.0, false)
 	actions_remaining -= 1
 	phase = Phase.ACTION
 	update_game_state()
@@ -271,7 +273,7 @@ func finish_pending_attack() -> void:
 
 func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: float = -1.0) -> float:
 	var incoming_damage: float = attacker.attack if damage < 0.0 else damage
-	var has_rollover: bool = Definitions.SpecialEffects.ROLLOVER in attacker.special_effects
+	var has_piercing: bool = Definitions.SpecialEffects.PIERCING in attacker.special_effects
 	hud.show_combat_status(attacker, active_player, hud.attacker_status, "Attacking!")
 	await get_tree().create_timer(1).timeout
 
@@ -280,7 +282,7 @@ func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: f
 		participants[pending_defender].take_damage(ceili(incoming_damage))
 		return 0.0
 
-	var damage_left: float = defender.get_remaining_rollover_damage(incoming_damage) if has_rollover else 0.0
+	var damage_left: float = defender.get_remaining_piercing_damage(incoming_damage) if has_piercing else 0.0
 	var attacker_died = attacker.take_damage(defender.attack)
 	var defender_died = defender.take_damage(incoming_damage)
 	# Both cards make contact, so Deathtouch works when attacking or blocking.
@@ -288,8 +290,8 @@ func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: f
 		defender_died = true
 	if Definitions.SpecialEffects.DEATHTOUCH in defender.special_effects:
 		attacker_died = true
-	# Lifelink only triggers when its owner dies while blocking.
-	if defender_died and Definitions.SpecialEffects.LIFELINK in defender.special_effects:
+	# Retaliation only triggers when its owner dies while blocking.
+	if defender_died and Definitions.SpecialEffects.RETALIATION in defender.special_effects:
 		attacker_died = true
 	# Inflict after resolving damage so the initial hit uses the old status.
 	if not defender_died and incoming_damage > 0 and Definitions.SpecialEffects.FALTER in attacker.special_effects:
@@ -303,7 +305,7 @@ func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: f
 	hud.hide_status_labels()
 
 	# The damage continues independently of the attacker node after it perishes.
-	if attacker_died and has_rollover and damage_left > 0.0:
+	if attacker_died and has_piercing and damage_left > 0.0:
 		pending_attacker = null
 	if attacker_died:
 		remove_card_from_board(attacker, active_player)
@@ -312,12 +314,12 @@ func resolve_attack_with_card_on_board(attacker: Card, defender: Card, damage: f
 	return damage_left
 
 
-func resolve_rollover_damage(damage: float, defender: Card) -> float:
+func resolve_piercing_damage(damage: float, defender: Card) -> float:
 	if defender == null:
 		participants[pending_defender].take_damage(ceili(damage))
 		return 0.0
 	# No attacker remains to retaliate against or to apply contact abilities.
-	var damage_left: float = defender.get_remaining_rollover_damage(damage)
+	var damage_left: float = defender.get_remaining_piercing_damage(damage)
 	var defender_died: bool = defender.take_damage(damage)
 	hud.show_combat_status(defender, pending_defender, hud.defender_status, "Destroyed!" if defender_died else "Blocked!")
 	await get_tree().create_timer(1).timeout
@@ -366,7 +368,6 @@ func request_borrowed_time(player_number : int):
 
 	_capture_board_state_before_action()
 	participants[player_number].borrowed_time_payback = 3
-	participants[player_number].take_damage(3)
 	time_action_taken = true
 
 	# Borrowed Time gives one extra action without costing one
@@ -497,7 +498,7 @@ func update_game_state(turn_ended: bool = false, newly_rewound_slot: CardSlot = 
 		# End Turn stays available even when no card actions remain.
 		hud.show_action_selection(InputManager.ActionMode.NONE)
 	elif phase == Phase.AWAITING_DEFENSE and pending_defender == Definitions.PLAYER_ONE:
-		hud.show_action_selection(InputManager.ActionMode.AWAITING_BLOCK)
+		hud.show_action_selection(InputManager.ActionMode.BLOCK)
 	else:
 		hud.show_action_selection(InputManager.ActionMode.LOCKED)
 

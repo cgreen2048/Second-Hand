@@ -18,25 +18,25 @@ enum SpecialEffects {
 	START_TURN,
 	FALTER,
 	DEATHTOUCH,
-	LIFELINK,
-	ROLLOVER,
+	RETALIATION,
+	PIERCING,
 	BONUS,
 }
 
 const EFFECT_STYLES := {
-	SpecialEffects.START_TURN: ["start_turn", "#FFB333"],
-	SpecialEffects.FALTER: ["falter", "#FFB333"],
-	SpecialEffects.DEATHTOUCH: ["deathtouch", "#7F01FE"],
-	SpecialEffects.LIFELINK: ["lifelink", "#780606"],
-	SpecialEffects.ROLLOVER: ["rollover", "#B99C96"],
-	SpecialEffects.BONUS: ["bonus", "#4EA847"],
+	SpecialEffects.START_TURN: ["start_turn", "#FFB333", ""],
+	SpecialEffects.FALTER: ["falter", "#FFB333", "Puts blocker in Faltered status"],
+	SpecialEffects.DEATHTOUCH: ["deathtouch", "#7F01FE", "Kills anything that it attacks"],
+	SpecialEffects.RETALIATION: ["retaliation", "#bec4ca", "When [color=#69CCF0]blocking[/color], \ntakes its killer down with it"],
+	SpecialEffects.PIERCING: ["piercing", "#780606", "The defender must block any \nleftover [color=#FF7D78]attack damage[/color] or take HP damage"],
+	SpecialEffects.BONUS: ["bonus", "#4EA847", ""],
 }
 
-const ADJACENCY_EFFECT_LABEL := "[img=16x16]res://Assets/UI/effect_adjacency.svg[/img] [b][color=#69CCF0]Adjacenct Cards[/color][/b]"
+const ADJACENCY_EFFECT_LABEL := "[img=16x16]res://Assets/UI/effect_adjacency.png[/img] [b][color=#F4F2ED]Adjacent Cards[/color][/b]"
 
 static func format_effect(effect: SpecialEffects, label: String) -> String:
 	var style: Array = EFFECT_STYLES[effect]
-	return "[img=16x16]res://Assets/UI/effect_%s.svg[/img] [b][color=%s]%s[/color][/b]" % [style[0], style[1], label]
+	return "[img=16x16]res://Assets/UI/effect_%s.png[/img] [b][color=%s]%s[/color][/b]: %s" % [style[0], style[1], label, style[2]]
 
 const CARDS = {
 	"knight": {
@@ -45,7 +45,7 @@ const CARDS = {
 		"attack": 4,
 		"block": 3,
 		"special_effects": {
-			SpecialEffects.ROLLOVER: 1
+			SpecialEffects.PIERCING: 1
 		},
 		"card_type": CardType.BOARD
 	},
@@ -91,7 +91,7 @@ const CARDS = {
 		"attack": 0,
 		"block": 4,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.LIFELINK: 1, SpecialEffects.START_TURN: Vector2i(0, -1)},
+		"special_effects": {SpecialEffects.RETALIATION: 1, SpecialEffects.START_TURN: Vector2i(0, -1)},
 		"card_type": CardType.BOARD
 	},
 	# Fragile breakthrough attackers; the siege engine deteriorates each turn.
@@ -100,7 +100,7 @@ const CARDS = {
 		"attack": 5,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.ROLLOVER: 1},
+		"special_effects": {SpecialEffects.PIERCING: 1},
 		"card_type": CardType.BOARD
 	},
 	"siegebreaker": {
@@ -108,7 +108,7 @@ const CARDS = {
 		"attack": 6,
 		"block": 1,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.ROLLOVER: 1, SpecialEffects.START_TURN: Vector2i(-2, 0)},
+		"special_effects": {SpecialEffects.PIERCING: 1, SpecialEffects.START_TURN: Vector2i(-2, 0)},
 		"card_type": CardType.BOARD
 	},
 	# Low-stat removal, defensive retaliation, and attack suppression.
@@ -125,7 +125,7 @@ const CARDS = {
 		"attack": 1,
 		"block": 3,
 		"adjacency_effects": Vector2i.ZERO,
-		"special_effects": {SpecialEffects.LIFELINK: 1},
+		"special_effects": {SpecialEffects.RETALIATION: 1},
 		"card_type": CardType.BOARD
 	},
 	"hexweaver": {

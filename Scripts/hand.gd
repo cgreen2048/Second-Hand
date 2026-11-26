@@ -3,6 +3,7 @@ extends Node2D
 
 @export var player_number: int = 1
 @export var hand_y: float = 390.0
+@export var cards_face_down : bool
 
 const CARD_SCENE_PATH = "res://Scenes/card.tscn"
 const CARD_WIDTH = 50
@@ -25,6 +26,7 @@ func add_card_to_hand(definition_id : String, pos: Vector2):
 	
 	new_card.setup(definition_id, player_number)
 	self.add_child(new_card)
+	new_card.set_face_down(cards_face_down)
 	
 	new_card.global_position = pos
 	hand.append(new_card)

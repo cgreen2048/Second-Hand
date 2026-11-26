@@ -44,6 +44,7 @@ alignment = 1
 
 [node name="PlayMatch" type="Button" parent="TitleScreenButtonBox" unique_id=2072104488]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_ig5kc")
@@ -51,6 +52,7 @@ text = "Play Match"
 
 [node name="HowToPlay" type="Button" parent="TitleScreenButtonBox" unique_id=559944958]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_ig5kc")
@@ -58,6 +60,7 @@ text = "How To Play"
 
 [node name="QuitGame" type="Button" parent="TitleScreenButtonBox" unique_id=1766485047]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 theme_override_constants/outline_size = 10
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = ExtResource("2_ig5kc")

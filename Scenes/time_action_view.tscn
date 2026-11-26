@@ -31,6 +31,7 @@ layout_mode = 2
 theme_override_constants/separation = 3
 
 [node name="TemporalCollapseButton" type="Button" parent="Actions/TemporalCollapse/Details" unique_id=2057958213]
+mouse_default_cursor_shape = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
@@ -57,6 +58,7 @@ layout_mode = 2
 theme_override_constants/separation = 3
 
 [node name="BorrowedTimeButton" type="Button" parent="Actions/BorrowedTime/Details" unique_id=536887713]
+mouse_default_cursor_shape = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
@@ -70,7 +72,7 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 12
 theme_override_font_sizes/bold_font_size = 12
 bbcode_enabled = true
-text = "Pay [b][color=#D65B5B]3 HP[/color][/b] to gain [b][color=#4EA847]1 action[/color][/b] now. Lose [b][color=#4EA847]1 action[/color][/b] in [b][color=#FFB333]3 turns[/color][/b]."
+text = "Gain [b][color=#4EA847]1 action[/color][/b] now. Lose [b][color=#4EA847]1 action[/color][/b] in [b][color=#FFB333]3 turns[/color][/b]."
 fit_content = true
 scroll_active = false
 
@@ -83,6 +85,7 @@ layout_mode = 2
 theme_override_constants/separation = 3
 
 [node name="TimeStopButton" type="Button" parent="Actions/TimeStop/Details" unique_id=119878750]
+mouse_default_cursor_shape = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)
@@ -109,6 +112,7 @@ layout_mode = 2
 theme_override_constants/separation = 3
 
 [node name="TimeRewindButton" type="Button" parent="Actions/TimeRewind/Details" unique_id=520440687]
+mouse_default_cursor_shape = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_hover_color = Color(1, 0.9, 0.66, 1)

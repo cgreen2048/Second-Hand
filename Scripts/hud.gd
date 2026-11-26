@@ -9,7 +9,7 @@ extends CanvasLayer
 @onready var actions_remaining: Label = $Control/ActionsRemaining
 @onready var player_turn_ui: HBoxContainer = $Control/PlayerTurnUIHBox
 @onready var defending_ui: HBoxContainer = $Control/DefendingUIHBox
-@onready var rollover_damage_label: Label = $Control/RolloverDamage
+@onready var piercing_damage_label: RichTextLabel = $Control/PiercingDamage
 
 @onready var attack_button: Button = $Control/PlayerTurnUIHBox/AttackButton
 @onready var time_action_button: Button = $Control/PlayerTurnUIHBox/TimeActionButton
@@ -20,7 +20,6 @@ extends CanvasLayer
 
 @onready var end_turn_button: Button = $Control/PlayerTurnUIHBox/EndTurnButton
 @onready var cancel_button: Button = $Control/CancelActionUIHbox/CancelButton
-@onready var block_button: Button = $Control/DefendingUIHBox/BlockButton
 @onready var no_block_button: Button = $Control/DefendingUIHBox/NoBlockButton
 @onready var discard_ui: VBoxContainer = $Control/DiscardUI
 @onready var discard_prompt: Label = $Control/DiscardUI/DiscardPrompt
@@ -67,7 +66,6 @@ func _ready() -> void:
 	actions_remaining.text = "Actions Remaining: " + str(starting_actions)
 	attack_button.pressed.connect(on_attack_button_pressed)
 	time_action_button.pressed.connect(input_manager.begin_time_action)
-	block_button.pressed.connect(on_block_button_pressed)
 	no_block_button.pressed.connect(on_no_block_button_pressed)
 	end_turn_button.pressed.connect(on_end_turn_button_pressed)
 	cancel_button.pressed.connect(on_cancel_button_pressed)
@@ -212,10 +210,11 @@ func close_time_action_overlay() -> void:
 	if menu_overlay.current_menu in [&"time_action", &"temporal_collapse", &"time_rewind"]:
 		menu_overlay.close_menu()
 
-func set_rollover_damage(damage: float, show_label: bool) -> void:
+func set_piercing_damage(damage: float, show_label: bool) -> void:
 	var damage_text: String = str(roundi(damage)) if is_equal_approx(damage, roundf(damage)) else String.num(damage, 2)
-	rollover_damage_label.text = damage_text + " damage remaining"
-	rollover_damage_label.visible = show_label
+	damage_text = "[color=#FF7D78]" + damage_text
+	piercing_damage_label.text = damage_text + " piercing damage[/color] remaining"
+	piercing_damage_label.visible = show_label
 
 
 func show_discard_controls(cards_remaining: int) -> void:
@@ -344,11 +343,8 @@ func show_action_selection(mode : InputManager.ActionMode) -> void:
 	match mode:
 		InputManager.ActionMode.ATTACK:
 			cancel_button.show()
-		InputManager.ActionMode.AWAITING_BLOCK:
-			set_block_buttons_visible(true)
 		InputManager.ActionMode.BLOCK:
-			set_block_buttons_visible(false)
-			cancel_button.show()
+			set_block_buttons_visible(true)
 		InputManager.ActionMode.TIME_ACTION_MENU:
 			if menu_overlay.current_menu != &"time_action":
 				menu_overlay.open_menu(&"time_action")

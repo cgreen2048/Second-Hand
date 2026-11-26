@@ -35,6 +35,7 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 
 [node name="BackwardInTime" type="TextureButton" parent="VBoxContainer/BoardRow/BackwardWrapper" unique_id=849129433]
+mouse_default_cursor_shape = 2
 visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
@@ -68,6 +69,7 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 
 [node name="ForwardInTime" type="TextureButton" parent="VBoxContainer/BoardRow/ForwardWrapper" unique_id=2024888379]
+mouse_default_cursor_shape = 2
 visible = false
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
@@ -91,11 +93,13 @@ theme_override_constants/separation = 120
 alignment = 1
 
 [node name="RewindTime" type="Button" parent="VBoxContainer/Buttons" unique_id=695665580]
+mouse_default_cursor_shape = 2
 visible = false
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
 [node name="Cancel" type="Button" parent="VBoxContainer/Buttons" unique_id=1705021429]
+mouse_default_cursor_shape = 2
 visible = false
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2

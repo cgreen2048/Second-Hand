@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpt6kd5eyp5ei"
-path="res://.godot/imported/effect_deathtouch.svg-0c61728ff963e298696074c890a83acb.ctex"
+uid="uid://d0d54hujj28g6"
+path="res://.godot/imported/cursor_pointer.png-ef6c1ccb672cb44165d1f33795bfd15e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/UI/effect_deathtouch.svg"
-dest_files=["res://.godot/imported/effect_deathtouch.svg-0c61728ff963e298696074c890a83acb.ctex"]
+source_file="res://textures/cursor_pointer.png"
+dest_files=["res://.godot/imported/cursor_pointer.png-ef6c1ccb672cb44165d1f33795bfd15e.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

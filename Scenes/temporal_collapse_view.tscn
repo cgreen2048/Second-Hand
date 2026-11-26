@@ -40,11 +40,13 @@ theme_override_constants/separation = 16
 alignment = 1
 
 [node name="Yes" type="Button" parent="OverlayVBox/Buttons" unique_id=396947219]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = "Yes"
 
 [node name="No" type="Button" parent="OverlayVBox/Buttons" unique_id=1213968176]
+mouse_default_cursor_shape = 2
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 text = "No"
